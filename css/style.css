@@ -1,0 +1,31 @@
+.navbar-nav {
+    position: absolute;
+    right: 10px;
+}
+
+body > h1 {
+margin-top: 10px;
+}
+
+#all-teddies {
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.card {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+}
+
+.card > img {
+    max-height: 200px;
+}
+
+.card > p {
+    margin-bottom: 5px;
+}
+
+.card h2 {
+    margin-top: 5px;
+}
