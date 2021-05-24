@@ -26,9 +26,7 @@ fetch("http://localhost:3000/api/teddies") // Requête fetch vers API
                     <h2 class="col-12 text-center">${element.name}</h2>
                     <p class="col-12 text-center"><strong>Coloris disponibles : </strong><br /> ${element.colors}<p>
                     <p class="col-12 text-center">Prix : ${element.price / 100} €</p>
-                    <div class="col-12 text-center">
-                        <a  href="products.html?id=${element._id}">Description détaillée</a>
-                    </div>
+                    <a class="stretched-link col-12 text-center" href="products.html?id=${element._id}">Description détaillée</a>
                 </div>
             `
         section.append(article); // Insère l'ensemble des articles dans la variable Section
