@@ -24,20 +24,17 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
         console.log(data.price);
         const article = document.createElement("article"); // Création d'une variable article pour stocker le nounours
         document.createElement("article"); // Création de l'élément article à l'intérieur de la section product
-        article.classList.add("col-md-8"); // Ajoute la class col-8 pour affichage pleine page
+        article.classList.add("card"); // Ajoute la class card à l'article
         article.style.margin = "auto";
         article.innerHTML = // Création de l'objet en HTML : la carte et son contenu
         `
-            <div class="card text-center">
-                <img class="card-img-top text-center" src='${data.imageUrl}' alt="Photo de l'ours en peluche ${data.name}" title="Ours en peluche ${data.name}"/>
-                <h2 class="col-12 text-center">${data.name}</h2>
-                <p class="col-12 text-center"><strong>Coloris disponibles : </strong><br /> ${data.colors}<p>
-                <p class="col-12 text-center">Prix : ${data.price / 100} €</p>
-                <button type="submit" id="btn-basket"class="col-4" href="">Ajouter au panier</a>
-            </div>
+            <img class="card-img-top text-center" src='${data.imageUrl}' alt="Photo de l'ours en peluche ${data.name}" title="Ours en peluche ${data.name}"/>
+            <h2 class="col-12 text-center">${data.name}</h2>
+            <p class="col-12 text-center"><strong>Coloris disponibles : </strong><br /> ${data.colors}<p>
+            <p class="col-12 text-center">Prix : ${data.price / 100} €</p>
+            <button type="submit" id="btn-basket" href="">Ajouter au panier</button>
         `
         product.append(article); // Insère l'article dans la variable Product
-        const photo = document.getElementBy
         const button = document.getElementById("btn-basket"); // Création d'une variable button pour designer le bouton
         button.classList.add("btn-info");
         button.classList.add("mx-auto");
