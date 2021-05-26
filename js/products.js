@@ -7,7 +7,7 @@ let id = params.get("id");
 const product = document.getElementById('product');
 
 
-///////////////////////     METHODE FETCH pour récupérer les données       \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+///////////////////////     Utilisation de l'API FETCH pour récupérer les données       \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 fetch(`http://localhost:3000/api/teddies/${id}`)
 
 
@@ -15,7 +15,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
     .then(function(res) {
         if (res.ok) {     
             console.log("Connexion au serveur réussie"); 
-            return res.json(); // Si réponse serveur ok, transforme les données en json
+            return res.json(); // Si réponse serveur ok, transforme les données en JSON
         }
         else {
             console.log("Problème de connexion au serveur"); // Message en cas d'erreur Serveur
@@ -25,7 +25,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
 
     ///////////////////////     UTILISATION DES DONNEES DU SERVEUR       \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-    .then(data => {                         // Promise pour les éléments reçus du server
+    .then(data => {                         // Promise pour les éléments JSON reçus du server
         console.log("Voici les données renvoyées par le serveur");
         console.log(data);                  // Montre les données converties => l'objet et ses attributs dans la console
         const article = document.createElement("article"); // Création d'une variable article pour stocker le produit
@@ -44,7 +44,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
         product.append(article); // Insère l'article dans la variable Product
 
 
-        ////////////////////     PERSONNALISATION DU BOUTON      \\\\\\\\\\\\\\\\\\\
+        ////////////////////     PERSONNALISATION DU BOUTON "Ajouter au Panier"     \\\\\\\\\\\\\\\\\\\
 
         const button = document.getElementById("btn-basket"); // Création d'une variable button pour designer le bouton
         button.classList.add("btn");
@@ -61,10 +61,18 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
             const option = document.createElement("option");
             colorChoice.append(option);
             option.append(element);
+        });
 
-        ///////////////////////     AJOUT DE MARGES AUTOUR DU SELECTEUR DE COULEURS   (ici la couleur)      \\\\\\\\\\\\\\\\\\\\\\
+        ///////////////////////     AJOUT DE MARGES AUTOUR DU SELECTEUR DE COULEURS     \\\\\\\\\\\\\\\\\\\\\\
 
-            colorChoice.classList.add("mt-2");
-            colorChoice.classList.add("mb-3");
-        })
-    })
+        colorChoice.classList.add("mt-2");
+        colorChoice.classList.add("mb-3");
+        
+    });
+
+
+    ///////////      CREATION DE LA FONCTIONNALITÉ PERMETTANT D'AJOUTER LE PRODUIT AU PANIER       \\\\\\\\\\\\\\\\\\\\\\\
+
+    // BOUTON > ON CLICK
+
+    // BOUTON > ADD EVENT LISTENER
