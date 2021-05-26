@@ -26,12 +26,12 @@ fetch("http://localhost:3000/api/teddies") // Requête fetch vers API
                     <h2 class="col-12 text-center">${element.name}</h2>
                     <p class="col-12 text-center"><strong>Coloris disponibles : </strong><br />${element.colors}<p>
                     <p class="col-12 text-center">Prix : ${element.price / 100} €</p>
-                    <button type="submit" class="btn-basket btn-info mx-auto my-2" href="">Ajouter au panier</button>
+                    <button type="submit" class="btn btn-info mx-auto my-2" href="">Voir le produit en détail</button>
                 </div>
             `
             section.append(article); // Insère l'ensemble des articles dans la variable Section   
         })
     })
     .catch(function(err) {
-        console.log("L'affichage du tableau n'a pas fonctionné")
+        console.log("L'affichage des articles n'a pas fonctionné")
     })
