@@ -2,11 +2,9 @@
 const section = document.getElementById('all-teddies');
 
 ///////////////////////     Utilisation de l'API FETCH pour récupérer les données       \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
 fetch("http://localhost:3000/api/teddies") // Requête fetch vers API
 
     ////////////////     TEST DU SERVEUR     \\\\\\\\\\\\\\\\\\\\\\\
-
     .then(function(res) {
         if (res.ok) {     
             console.log("Connexion au serveur réussie"); 
@@ -17,18 +15,12 @@ fetch("http://localhost:3000/api/teddies") // Requête fetch vers API
         }
     })
 
-
-
     ///////////////////////     UTILISATION DES DONNEES DU SERVEUR  +  LOG     \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
     .then(data => { // Promise pour les éléments reçus du server
         console.log("Voici les données renvoyées par le serveur");
         console.log(data); // Montre les données converties => Array(5) dans la console
 
-
-
         ///////////////////////     INSERTION DES DONNEES DU SERVEUR       \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
         data.forEach(element => { // Utilisation des données de chaque élément de l'array
             const article = document.createElement("article"); // Création d'une variable article pour stocker chaque produit
             document.createElement("article"); // Création d'un élément article à l'intérieur de la section all-teddies
@@ -46,10 +38,7 @@ fetch("http://localhost:3000/api/teddies") // Requête fetch vers API
             section.append(article); // Insère l'ensemble des articles dans la variable Section   
         })
     })
-
-
     ///////////////////////     MESSAGE D'ERREUR EN CAS DE NON-FONCTIONNEMENT DE L'INSERTION DES DONNÉES       \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
     .catch(function(err) {
         console.log("Les données récupérées sur le serveur n'ont pas pu être insérées dans la section")
     })
