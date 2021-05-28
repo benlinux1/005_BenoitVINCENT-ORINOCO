@@ -30,15 +30,17 @@ margin-top: 10px;
 }
 
 @media screen and (max-width: 769px) {
-    .card > img  {
+    #all-teddies .card > img {
         margin: auto;
-        height: 270px;
+        height: 300px;
+        object-fit: cover;
+
     }
 }
 
-@media screen and (min-width: 770px) and (max-width: 1280px) {
+@media screen and (min-width: 770px) {
 
-    .card, article > .card {
+    .card {
         max-width: 500px;
         margin-left: auto;
         margin-right: auto;
@@ -46,10 +48,6 @@ margin-top: 10px;
         margin-bottom: 10px;
     }
     
-    .card > img {
-        margin: auto;
-        height: 270px;
-    }
 }
 
 #product {
