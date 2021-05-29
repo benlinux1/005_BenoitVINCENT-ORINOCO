@@ -2,15 +2,12 @@
 let params = (new URL(document.location)).searchParams;
 let id = params.get("id");
 
-
 // Création d'une variable pointant vers la section de page "Product"
 const product = document.getElementById('product');
 
 
 //     Utilisation de l'API FETCH pour récupérer les données SUR L'ID en question
 fetch(`http://localhost:3000/api/teddies/${id}`)
-
-
      //    TEST DU SERVEUR
     .then(function(res) {
         if (res.ok) {     
@@ -23,7 +20,6 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
             console.log("Problème de connexion au serveur"); 
         }
     })
-
 
     // UTILISATION DES DONNEES DU SERVEUR
     // Promise pour les éléments JSON reçus du server
@@ -67,21 +63,39 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
             const option = document.createElement("option");
             colorChoice.append(option);
             option.append(element);
-        });
+        })
 
         // AJOUT DE MARGES AUTOUR DU SELECTEUR DE COULEURS
         colorChoice.classList.add("mt-2");
         colorChoice.classList.add("mb-3");
 
-        // CREATION DE LA FONCTIONNALITÉ PERMETTANT D'AJOUTER LE PRODUIT AU PANIER
-
+        // CREATION DE LA FONCTIONNALITÉ PERMETTANT D'AJOUTER LE PRODUIT AU PANIER avec la couleur sélectionnée
         button.addEventListener("click", function() {
             console.log("Bouton cliqué")
             const color = document.getElementsByTagName("select");
-            const selectedColor = color[0].value;
+            let selectedColor = (colorChoice.value);
+            console.log(JSON.stringify(selectedColor));
+            localStorage.setItem(id, JSON.stringify(selectedColor));
+            basketContent.setItem(id, JSON.stringify(selectedColor));
         })
+
+        // Ajoute l
+        let price = data.price;
+        let selectedProducts = (id, price);
+        console.log(selectedProducts);
         
+
+
     });
+
+    // Fonction AJouter au Panier le produit + la couleur sélectionnée
+    function addToBasket(selectedColor) {
+        let basketContent = JSON.parse(localStorage.getItem("basketContent"));
+        if (basketContent === null) {
+            basketContent = [];
+        }
+    }
+
 
 
      
