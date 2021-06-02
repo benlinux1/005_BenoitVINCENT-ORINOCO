@@ -2,16 +2,7 @@
 let params = (new URL(document.location)).searchParams;
 let id = params.get("id");
 
-
-// CONSTRUCTION DU PANIER  
-
-// Pointage vers la section "basket"
-const basket = document.getElementById("basket");
-
-// construction d'un tableau pour le contenu du Panier
-let basketContent = [];
-
-// construction d'un objet pour chaque produit du Panier
+// Construction d'un objet pour chaque produit du Panier
 class productInBasket {
     constructor(image, title, color, totalPrice) {
         this.image = productImage;
@@ -21,67 +12,59 @@ class productInBasket {
     }
 }
 
-// Tableau : ProductList
-let productList = document.createElement("table");
-basket.appendChild(productList);
+// Pointage vers la section "basket"
+const basket = document.getElementById("basket");
 
-// Message : Panier vide / voici le détail de votre panier
-let message = document.createElement("p");
-message.innerHTML = "Voici le détail de votre panier";
-if 
 
-let productDescription = document.createElement("tr");
-productDescription.classList.add("col-md-12");
+// Message concernant le détail du panier
+const message = document.createElement("p");
+basket.append(message);
+message.innerText = "Voici le détail de votre panier :";
+message.classList.add("basket-message");
 
-let productImage = document.createElement("td");
-productImage.classList.add("col-md-2");
 
-let productName = document.createElement("td");
-productName.classList.add("col-md-2")
-productName.innerHTML = `data-id ="${id}"`;
-
-let productColor = document.createElement("td");
-productColor.classList.add("col-md-2");
-productColor.innerHTML = `data-color ="${selectedColor}"`; 
-
-let productPrice = document.createElement("td");
-productPrice.classList.add("col-md-2");
-productPrice.innerHTML = `data-price ="${price}"`;
-
-let productDecrease = document.createElement("button");
-productDecrease.classList.add("col-md-1");
-for(let i = 0; i < 99; i--) {
-    console.log("1 unité retirée")
-};
-
-let productQuantity = document.createElement("input");
-productQuantity.classList.add("col-md-1");
-for(let i = 1; i < 99; i = productIncrease - productDecrease);
-if (i<=0) {
-    console.log("suppression du produit");
-    // fonction à créer pour supprimer l'article
+// Consultation du local Storage
+window.onload = () => {
+    if(localStorage.color != null) {
+        let color = localStorage.getItem("color");
+    } else {
+        message.innerText = "Votre panier est vide";
+    }
 }
 
-let productIncrease = document.createElement("button");
-prodcutIncrease.classList.add("col-md-1");
-for(let i = 0; i < 99; i++) {
-    console.log("1 unité ajoutée")
-};
+// Création d'un "table" contenant la liste des produits + append à la section Basket
+const productList = document.createElement("table");
+basket.appendChild(productList);
 
-let prodcutDelete = document.createElement("button");
-prodcutDelete.classList.add("col-md-1");
+const basketContent = [];
+for(let i = 0; i < 99; i++);
+basket.append(basketContent);
 
-basket.appendChild(message);
-productList.appendChild(productDescription);
-productList.appendChild(productImage);
-productList.appendChild(productName);
-productList.appendChild(productColor);
-productList.appendChild(productPrice);
-productList.appendChild(prodcutQuantity);
-productList.appendChild(productDecrease);
-productList.appendChild(prodcutQuantity);
-productList.appendChild(prodcutIncrease);
-productList.appendChild(prodcutDelete);
+
+// Création d'un "tr" contenant la description des produits + append au tableau
+let productDescription = document.createElement("tr");
+productDescription.classList.add("col-md-12");
+productList.append(productDescription);
+
+// Récupération du nom de produit dans le localStorage
+let product = localStorage.getItem("productName");
+console.log(product);
+const productCreation = document.createElement("td");
+document.createElement("productCreation");
+productCreation.classList.add("col-md-2");
+productCreation.append(product);
+productDescription.append(productCreation);
+
+// Récupération de la couleur dans le localStorage
+let selectedColor = localStorage.getItem("color");
+console.log(selectedColor);
+const productColor = document.createElement("td");
+document.createElement("productColor");
+productColor.classList.add("col-md-2");
+productColor.append(selectedColor);
+productDescription.append(productColor);
+
+
 
 
 ///////////      CREER UNE BOUCLE SUR CHAQUE ELEMENT AJOUTÉ POUR INCRÉMENTER LE TABLEAU      \\\\\\\\\\\\\\\\\\\\\\\
