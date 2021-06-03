@@ -69,15 +69,33 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
         colorChoice.classList.add("mt-2");
         colorChoice.classList.add("mb-3");
 
-        localStorage.length = 0
+        // Création du format d'un objet
+        class productInBasket {
+            constructor(productImage, productName, productColor, productPrice) {
+                this.productImage = data.imageUrl;
+                this.productName = data.name;
+                this.productColor = `${colorChoice.value}`; 
+                this.productPrice = data.price;
+            }
+        }
 
-        // CREATION DE LA FONCTIONNALITÉ PERMETTANT D'AJOUTER LE PRODUIT AU PANIER avec la couleur sélectionnée
+        // CREATION DE LA FONCTION PERMETTANT D'AJOUTER LE PRODUIT AU PANIER
+        function addToBasket(selectedColor) {
+            let basket = JSON.parse(localStorage.getItem("basket"));
+            if (basket === null) {
+                basket = [];
+            }
+            let newProduct = new productInBasket;
+            basket.push(newProduct);
+            localStorage.setItem("basket", JSON.stringify(basket));
+        }
+
+        // STOCKAGE DU PRODUIT + COULEUR (en objet) dans l'array "Basket"
         button.addEventListener("click", function() {
-            console.log("Bouton cliqué")
+            // Création d'une variable pour stocker la couleur choisie par l'utilisateur
             let selectedColor = (colorChoice.value);
-        
             console.log(data.name, selectedColor);
-            localStorage.setItem("color", selectedColor);
-            localStorage.setItem("productName", id);
+            addToBasket(selectedColor);
+            alert("Vous venez d'ajouter " + data.name + " en " + `${selectedColor}` + " au panier");
         })
     });
