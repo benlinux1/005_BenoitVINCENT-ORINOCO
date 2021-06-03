@@ -71,23 +71,23 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
 
         // Création du format d'un objet
         class productInBasket {
-            constructor(productImage, productName, productColor, productPrice) {
-                this.productImage = data.imageUrl;
-                this.productName = data.name;
-                this.productColor = `${colorChoice.value}`; 
-                this.productPrice = data.price;
+            constructor(articleImage, articleName, articleColor, articlePrice) {
+                this.articleImage = data.imageUrl;
+                this.articleName = data.name;
+                this.articleColor = `${colorChoice.value}`; 
+                this.articlePrice = data.price;
             }
         }
 
         // CREATION DE LA FONCTION PERMETTANT D'AJOUTER LE PRODUIT AU PANIER
         function addToBasket(selectedColor) {
-            let basket = JSON.parse(localStorage.getItem("basket"));
-            if (basket === null) {
-                basket = [];
+            let basketContent = JSON.parse(localStorage.getItem("basketContent"));
+            if (basketContent === null) {
+                basketContent = [];
             }
             let newProduct = new productInBasket;
-            basket.push(newProduct);
-            localStorage.setItem("basket", JSON.stringify(basket));
+            basketContent.push(newProduct);
+            localStorage.setItem("basketContent", JSON.stringify(basketContent));
         }
 
         // STOCKAGE DU PRODUIT + COULEUR (en objet) dans l'array "Basket"
@@ -97,5 +97,8 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
             console.log(data.name, selectedColor);
             addToBasket(selectedColor);
             alert("Vous venez d'ajouter " + data.name + " en " + `${selectedColor}` + " au panier");
+            if (localStorage.getItem("`${selectedColor}`")) {
+                
+            }
         })
     });
