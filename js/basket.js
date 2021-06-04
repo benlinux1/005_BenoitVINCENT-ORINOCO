@@ -68,6 +68,13 @@ totalPrice.classList.add("col-md-2");
 totalPrice.innerText = "Prix total";
 productDescription.appendChild(totalPrice);
 
+// Création d'un "td" contenant le bouton supprimer
+let deleteTd = document.createElement("td");
+document.createElement("deleteTd");
+deleteTd.classList.add("col-md-2");
+deleteTd.innerText = "Suppression";
+productDescription.appendChild(deleteTd);
+
 // Consultation du local Storage
 window.onload = () => {
     if(localStorage.basketContent != null) {
@@ -86,38 +93,79 @@ window.onload = () => {
             document.createElement("imageProduct");
             imageProduct.src = productInBasket.articleImage;
             imageColumn.append(imageProduct);
+            imageColumn.classList.add("col-md-2");
             ligneArticle.append(imageColumn);
 
             // Création de la colonne Name dans un TD
             let nameColumn = document.createElement("td");
             document.createElement("nameColumn");
             nameColumn.append(productInBasket.articleName);
+            nameColumn.classList.add("col-md-2");
             ligneArticle.append(nameColumn);
             
             // Création de la colonne Color dans un TD
             let colorColumn = document.createElement("td");
             document.createElement("colorColumn");
             colorColumn.append(productInBasket.articleColor);
+            colorColumn.classList.add("col-md-1");
             ligneArticle.append(colorColumn);
 
             // Création de la colonne Price dans un TD
             let priceColumn = document.createElement("td");
             document.createElement("priceColumn");
             priceColumn.append(productInBasket.articlePrice/100 + " €");
+            priceColumn.classList.add("col-md-2");
             ligneArticle.append(priceColumn);
 
             // Création de la colonne Quantity dans un TD
             let quantityColumn = document.createElement("td");
             document.createElement("quantityColumn");
+            let lessQuantityButton = document.createElement("button");
+            document.createElement("lessQuantityButton");
+            lessQuantityButton.innerText = "-";
+            lessQuantityButton.classList.add("mr-2");
+            quantityColumn.append(lessQuantityButton);
             quantityColumn.append(productInBasket.articleQuantity);
+            quantityColumn.classList.add("col-md-2");
             ligneArticle.append(quantityColumn);
+
+            // Création d'un "td" contenant le bouton +
+            let addQuantityButton = document.createElement("button");
+            document.createElement("addQuantityButton");
+            addQuantityButton.innerText = "+";
+            addQuantityButton.classList.add("ml-2");
+            quantityColumn.append(addQuantityButton);
 
             // Création de la colonne Prix Total dans un TD
             let totalPriceColumn = document.createElement("td");
             let totalPriceColumnAmount = productInBasket.articleQuantity * productInBasket.articlePrice/100;
             document.createElement("totalPriceColumn");
+            totalPriceColumn.classList.add("total-price");
+            totalPrice.classList.add("col-md-2");
             totalPriceColumn.append(totalPriceColumnAmount + " €");
             ligneArticle.append(totalPriceColumn);
+
+            // Création d'un "td" contenant le bouton supprimer
+            let deleteButtonContainer = document.createElement("td");
+            let deleteButton = document.createElement("button");
+            document.createElement("deleteButtonContainer");
+            document.createElement("deleteButton");
+            deleteButtonContainer.classList.add("col-md-2");
+            deleteButton.innerText = "Supprimer";
+            deleteButtonContainer.append(deleteButton);
+            ligneArticle.appendChild(deleteButtonContainer);
+
+            // FONCTION PERMETTANT DE SUPPRIMER LE PRODUIT AU PANIER dans le LocalStorage
+            function deleteFromBasket() {
+            }
+
+            // STOCKAGE DU PRODUIT + COULEUR (en objet) dans l'array "BasketContent"
+            deleteButton.addEventListener("click", function() {
+                console.log(productInBasket.articleName, productInBasket.articleColor);
+                deleteFromBasket();
+                alert("Vous venez de supprimer " + productInBasket.articleName + " (coloris " + productInBasket.articleColor + " ) du panier");
+            })
+            console.log(totalPriceColumnAmount);
         })
     } else {
         message.innerText = "Votre panier est vide";
@@ -126,11 +174,12 @@ window.onload = () => {
 
 // Création d'une ligne pour le total de la commande
 let totalOrderPrice = document.createElement("p");
-document.createElement("totalPrice");
+document.createElement("totalOrderPrice");
 totalOrderPrice.classList.add("col-md-12");
-totalOrderPrice.innerText = "Montant total de votre commande :" + " ";
 totalOrderPrice.style.fontWeight = 'bold';
+totalOrderPrice.id = "total-order-price";
 basket.append(totalOrderPrice);
+document.getElementById("total-order-price").innerText = "Montant total de votre commande :" + " " + " €";
 
 // Création du formulaire
 
