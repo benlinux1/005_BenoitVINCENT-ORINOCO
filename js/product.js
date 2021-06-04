@@ -5,6 +5,12 @@ let id = params.get("id");
 // Création d'une variable pointant vers la section de page "Product"
 const productCard = document.getElementById('product-card');
 
+// IDENTIFICATION ET INSTALLATION DU PANIER QUI RECUPERE LES PRODUITS dans le LocalStorage
+let basketContent = JSON.parse(localStorage.getItem("basketContent"));
+if (basketContent === null) {
+    basketContent = [];
+}
+
 
 //     Utilisation de l'API FETCH pour récupérer les données SUR L'ID en question
 fetch(`http://localhost:3000/api/teddies/${id}`)
@@ -83,22 +89,10 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
         // Création d'une variable pour les NOUVEAUX PRODUITS
         let newProduct = new product;
 
-        // IDENTIFICATION ET INSTALLATION DU PANIER QUI RECUPERE LES PRODUITS dans le LocalStorage
-        let basketContent = JSON.parse(localStorage.getItem("basketContent"));
-        if (basketContent === null) {
-            basketContent = [];
-        }
-
         // FONCTION PERMETTANT D'AJOUTER LE PRODUIT AU PANIER dans le LocalStorage
         function addToBasket() {
             basketContent.push(newProduct);
             localStorage.setItem("basketContent", JSON.stringify(basketContent));
-        }
-
-        // FONCTION PERMETTANT D'AJOUTER "1" à la quantité du produit
-        function addQuantity() {
-            product.push(articleQuantity += 1);
-            localStorage.setItem("basketContent", [articleQuantity+1]);
         }
 
         // STOCKAGE DU PRODUIT + COULEUR (en objet) dans l'array "BasketContent"
@@ -106,12 +100,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
             // Création d'une variable pour stocker la couleur choisie par l'utilisateur
             let selectedColor = (colorChoice.value);
             console.log(data.name, selectedColor);
-            if (localStorage.getItem([`${id}`]) && (localStorage.getItem([`${selectedColor}`]))) {
-                addQuantity();
-                alert("Vous venez d'ajouter 1 " + data.name + " (coloris " + `${selectedColor}` + " ) au panier");
-            } else {
-                addToBasket();
-                alert("Vous venez d'ajouter " + data.name + " (coloris " + `${selectedColor}` + " ) au panier");
-            }
+            addToBasket();
+            alert("Vous venez d'ajouter " + data.name + " (coloris " + `${selectedColor}` + " ) au panier");
         })
-    });
+    })

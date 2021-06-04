@@ -14,16 +14,6 @@ message.classList.add("basket-message");
 message.classList.add("col-12")
 basket.append(message);
 
-// Déclaration du format d'un produit du panier
-class productInBasket {
-    constructor(articleImage, articleName, articleColor, articlePrice) {
-        this.articleImage = data.imageUrl;
-        this.articleName = data.name;
-        this.articleColor = `${colorChoice.value}`; 
-        this.articlePrice = data.price;
-    }
-}
-
 // Création d'un tableau contenant la liste des produits + append à la section Basket
 const productList = document.createElement("table");
 productList.classList.add("col-md-12");
@@ -83,8 +73,7 @@ window.onload = () => {
     if(localStorage.basketContent != null) {
         let basketContent = JSON.parse(localStorage.getItem("basketContent"));
         console.log(basketContent);
-        console.log(productInBasket);
-        basketContent.forEach(element => {
+        basketContent.forEach(productInBasket => {
             // Création de la ligne article dans un TR
             let ligneArticle = document.createElement("tr");
             document.createElement("ligneArticle");
@@ -95,48 +84,55 @@ window.onload = () => {
             let imageProduct = document.createElement("img")
             document.createElement("imageColumn");
             document.createElement("imageProduct");
-            imageProduct.src = element.articleImage;
+            imageProduct.src = productInBasket.articleImage;
             imageColumn.append(imageProduct);
             ligneArticle.append(imageColumn);
 
             // Création de la colonne Name dans un TD
             let nameColumn = document.createElement("td");
             document.createElement("nameColumn");
-            nameColumn.append(element.articleName);
+            nameColumn.append(productInBasket.articleName);
             ligneArticle.append(nameColumn);
             
             // Création de la colonne Color dans un TD
             let colorColumn = document.createElement("td");
             document.createElement("colorColumn");
-            colorColumn.append(element.articleColor);
+            colorColumn.append(productInBasket.articleColor);
             ligneArticle.append(colorColumn);
 
             // Création de la colonne Price dans un TD
             let priceColumn = document.createElement("td");
             document.createElement("priceColumn");
-            priceColumn.append(element.articlePrice/100 + " €");
+            priceColumn.append(productInBasket.articlePrice/100 + " €");
             ligneArticle.append(priceColumn);
 
             // Création de la colonne Quantity dans un TD
             let quantityColumn = document.createElement("td");
             document.createElement("quantityColumn");
+            quantityColumn.append(productInBasket.articleQuantity);
             ligneArticle.append(quantityColumn);
 
-            
+            // Création de la colonne Prix Total dans un TD
+            let totalPriceColumn = document.createElement("td");
+            let totalPriceColumnAmount = productInBasket.articleQuantity * productInBasket.articlePrice/100;
+            document.createElement("totalPriceColumn");
+            totalPriceColumn.append(totalPriceColumnAmount + " €");
+            ligneArticle.append(totalPriceColumn);
         })
-
     } else {
         message.innerText = "Votre panier est vide";
     }
 };
 
+// Création d'une ligne pour le total de la commande
+let totalOrderPrice = document.createElement("p");
+document.createElement("totalPrice");
+totalOrderPrice.classList.add("col-md-12");
+totalOrderPrice.innerText = "Montant total de votre commande :" + " ";
+totalOrderPrice.style.fontWeight = 'bold';
+basket.append(totalOrderPrice);
 
-///////////      CREER UNE BOUCLE SUR CHAQUE ELEMENT AJOUTÉ POUR INCRÉMENTER LE TABLEAU      \\\\\\\\\\\\\\\\\\\\\\\
+// Création du formulaire
+
 
 ///////////      VERIFIER POSSIBILITÉ D'AJOUTER PLUSIEURS FOIS LE MEME ARTICLE      \\\\\\\\\\\\\\\\\\\\\\\
-
-///////////      VOIR POUR LOCALSTORAGE      \\\\\\\\\\\\\\\\\\\\\\\
-
-///////////      VOIR POUR GET ATTRIBUTE      \\\\\\\\\\\\\\\\\\\\\\\
-
-///////////      VOIR POUR SET ATTRIBUTE      \\\\\\\\\\\\\\\\\\\\\\\
