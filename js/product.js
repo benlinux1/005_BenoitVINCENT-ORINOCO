@@ -3,7 +3,7 @@ let params = (new URL(document.location)).searchParams;
 let id = params.get("id");
 
 // Création d'une variable pointant vers la section de page "Product"
-const product = document.getElementById('product');
+const productCard = document.getElementById('product-card');
 
 
 //     Utilisation de l'API FETCH pour récupérer les données SUR L'ID en question
@@ -46,7 +46,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
             <button type="submit" id="btn-basket" href="" data-id="${id}">Ajouter au panier</button>
         `
         // Insère l'article dans la variable Product
-        product.append(article);
+        productCard.append(article);
 
         // PERSONNALISATION DU BOUTON "Ajouter au Panier"     
         // Création d'une variable button pour designer le bouton
@@ -69,36 +69,49 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
         colorChoice.classList.add("mt-2");
         colorChoice.classList.add("mb-3");
 
-        // Création du format d'un objet
-        class productInBasket {
-            constructor(articleImage, articleName, articleColor, articlePrice) {
+        // Création de la CLASSE PRODUIT
+        class product {
+            constructor(articleId, articleImage, articleName, articleColor, articleQuantity, articlePrice) {
+                this.articleId = data._id;
                 this.articleImage = data.imageUrl;
                 this.articleName = data.name;
-                this.articleColor = `${colorChoice.value}`; 
+                this.articleColor = `${colorChoice.value}`;
+                this.articleQuantity = 1;
                 this.articlePrice = data.price;
             }
         }
+        // Création d'une variable pour les NOUVEAUX PRODUITS
+        let newProduct = new product;
 
-        // CREATION DE LA FONCTION PERMETTANT D'AJOUTER LE PRODUIT AU PANIER
-        function addToBasket(selectedColor) {
-            let basketContent = JSON.parse(localStorage.getItem("basketContent"));
-            if (basketContent === null) {
-                basketContent = [];
-            }
-            let newProduct = new productInBasket;
+        // IDENTIFICATION ET INSTALLATION DU PANIER QUI RECUPERE LES PRODUITS dans le LocalStorage
+        let basketContent = JSON.parse(localStorage.getItem("basketContent"));
+        if (basketContent === null) {
+            basketContent = [];
+        }
+
+        // FONCTION PERMETTANT D'AJOUTER LE PRODUIT AU PANIER dans le LocalStorage
+        function addToBasket() {
             basketContent.push(newProduct);
             localStorage.setItem("basketContent", JSON.stringify(basketContent));
         }
 
-        // STOCKAGE DU PRODUIT + COULEUR (en objet) dans l'array "Basket"
+        // FONCTION PERMETTANT D'AJOUTER "1" à la quantité du produit
+        function addQuantity() {
+            product.push(articleQuantity += 1);
+            localStorage.setItem("basketContent", [articleQuantity+1]);
+        }
+
+        // STOCKAGE DU PRODUIT + COULEUR (en objet) dans l'array "BasketContent"
         button.addEventListener("click", function() {
             // Création d'une variable pour stocker la couleur choisie par l'utilisateur
             let selectedColor = (colorChoice.value);
             console.log(data.name, selectedColor);
-            addToBasket(selectedColor);
-            alert("Vous venez d'ajouter " + data.name + " en " + `${selectedColor}` + " au panier");
-            if (localStorage.getItem("`${selectedColor}`")) {
-                
+            if (localStorage.getItem([`${id}`]) && (localStorage.getItem([`${selectedColor}`]))) {
+                addQuantity();
+                alert("Vous venez d'ajouter 1 " + data.name + " (coloris " + `${selectedColor}` + " ) au panier");
+            } else {
+                addToBasket();
+                alert("Vous venez d'ajouter " + data.name + " (coloris " + `${selectedColor}` + " ) au panier");
             }
         })
     });
