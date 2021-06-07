@@ -14,18 +14,18 @@ message.classList.add("basket-message");
 message.classList.add("col-12")
 basket.append(message);
 
-// Création d'un tableau contenant la liste des produits + append à la section Basket
+// Création d'une TABLE contenant la liste des produits + ajout à la section Basket
 const productList = document.createElement("table");
 productList.classList.add("col-md-12");
 productList.classList.add("table");
 basket.append(productList);
 
-// Création d'un "tr" contenant la description des produits + append au tableau
+// Création d'un "tr" contenant la description du produit
 let productDescription = document.createElement("tr");
 productDescription.classList.add("col-md-12");
 productList.append(productDescription);
 
-// Création d'un "td" contenant l'image du produit
+// Création d'un "td" "image du produit"
 let productImage = document.createElement("td");
 document.createElement("productImage");
 productImage.classList.add("col-md-2");
@@ -75,102 +75,118 @@ deleteTd.classList.add("col-md-2");
 deleteTd.innerText = "Suppression";
 productDescription.appendChild(deleteTd);
 
-// Consultation du local Storage
-window.onload = () => {
-    if(localStorage.basketContent != null) {
-        let basketContent = JSON.parse(localStorage.getItem("basketContent"));
-        console.log(basketContent);
-        basketContent.forEach(productInBasket => {
-            // Création de la ligne article dans un TR
-            let ligneArticle = document.createElement("tr");
-            document.createElement("ligneArticle");
-            productList.append(ligneArticle);
+// Identification du Panier d'article depuis le Local Storage
+let listOfArticles = localStorage.getItem("basketContent");
+let listOfArticlesJSON = JSON.parse(listOfArticles);
 
-            // Création de la colonne Image dans un TD
-            let imageColumn = document.createElement("td");
-            let imageProduct = document.createElement("img")
-            document.createElement("imageColumn");
-            document.createElement("imageProduct");
-            imageProduct.src = productInBasket.articleImage;
-            imageColumn.append(imageProduct);
-            imageColumn.classList.add("col-md-2");
-            ligneArticle.append(imageColumn);
+// RECUPERATION DE TOUS LES ARTICLES AU PANIER
+// Message si panier vide
+if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === null) {
+    message.innerText = "Votre panier est vide";
+// Construction du Tableau pour chaque au panier
+} else {
+    listOfArticlesJSON.forEach(article => {
+        // Création de la ligne article dans un TR
+        let ligneArticle = document.createElement("tr");
+        document.createElement("ligneArticle");
+        productList.append(ligneArticle);
 
-            // Création de la colonne Name dans un TD
-            let nameColumn = document.createElement("td");
-            document.createElement("nameColumn");
-            nameColumn.append(productInBasket.articleName);
-            nameColumn.classList.add("col-md-2");
-            ligneArticle.append(nameColumn);
-            
-            // Création de la colonne Color dans un TD
-            let colorColumn = document.createElement("td");
-            document.createElement("colorColumn");
-            colorColumn.append(productInBasket.articleColor);
-            colorColumn.classList.add("col-md-1");
-            ligneArticle.append(colorColumn);
+        // Création de la colonne Image dans un TD
+        let imageColumn = document.createElement("td");
+        let imageProduct = document.createElement("img")
+        document.createElement("imageColumn");
+        document.createElement("imageProduct");
+        imageProduct.src = article.articleImage;
+        imageColumn.append(imageProduct);
+        imageColumn.classList.add("col-md-2");
+        ligneArticle.append(imageColumn);
 
-            // Création de la colonne Price dans un TD
-            let priceColumn = document.createElement("td");
-            document.createElement("priceColumn");
-            priceColumn.append(productInBasket.articlePrice/100 + " €");
-            priceColumn.classList.add("col-md-2");
-            ligneArticle.append(priceColumn);
+        // Création de la colonne Name dans un TD
+        let nameColumn = document.createElement("td");
+        document.createElement("nameColumn");
+        nameColumn.append(article.articleName);
+        nameColumn.classList.add("col-md-2");
+        ligneArticle.append(nameColumn);
+        
+        // Création de la colonne Color dans un TD
+        let colorColumn = document.createElement("td");
+        document.createElement("colorColumn");
+        colorColumn.append(article.articleColor);
+        colorColumn.classList.add("col-md-1");
+        ligneArticle.append(colorColumn);
 
-            // Création de la colonne Quantity dans un TD
-            let quantityColumn = document.createElement("td");
-            document.createElement("quantityColumn");
-            let lessQuantityButton = document.createElement("button");
-            document.createElement("lessQuantityButton");
-            lessQuantityButton.innerText = "-";
-            lessQuantityButton.classList.add("mr-2");
-            quantityColumn.append(lessQuantityButton);
-            quantityColumn.append(productInBasket.articleQuantity);
-            quantityColumn.classList.add("col-md-2");
-            ligneArticle.append(quantityColumn);
+        // Création de la colonne Price dans un TD
+        let priceColumn = document.createElement("td");
+        document.createElement("priceColumn");
+        priceColumn.append(article.articlePrice/100 + " €");
+        priceColumn.classList.add("col-md-2");
+        ligneArticle.append(priceColumn);
 
-            // Création d'un "td" contenant le bouton +
-            let addQuantityButton = document.createElement("button");
-            document.createElement("addQuantityButton");
-            addQuantityButton.innerText = "+";
-            addQuantityButton.classList.add("ml-2");
-            quantityColumn.append(addQuantityButton);
+        // Création de la colonne Quantity dans un TD
+        let quantityColumn = document.createElement("td");
+        document.createElement("quantityColumn");
+        let lessQuantityButton = document.createElement("button");
+        document.createElement("lessQuantityButton");
+        lessQuantityButton.innerText = "-";
+        lessQuantityButton.classList.add("mr-2");
+        lessQuantityButton.classList.add("btn");
+        lessQuantityButton.classList.add("btn-info");
+        lessQuantityButton.classList.add("rounded");
+        lessQuantityButton.classList.add("btn-sm");
+        quantityColumn.append(lessQuantityButton);
+        quantityColumn.append(article.articleQuantity);
+        quantityColumn.classList.add("col-md-2");
+        ligneArticle.append(quantityColumn);
 
-            // Création de la colonne Prix Total dans un TD
-            let totalPriceColumn = document.createElement("td");
-            let totalPriceColumnAmount = productInBasket.articleQuantity * productInBasket.articlePrice/100;
-            document.createElement("totalPriceColumn");
-            totalPriceColumn.classList.add("total-price");
-            totalPrice.classList.add("col-md-2");
-            totalPriceColumn.append(totalPriceColumnAmount + " €");
-            ligneArticle.append(totalPriceColumn);
+        // Création d'un "td" contenant le bouton +
+        let addQuantityButton = document.createElement("button");
+        document.createElement("addQuantityButton");
+        addQuantityButton.innerText = "+";
+        addQuantityButton.classList.add("ml-2");
+        addQuantityButton.classList.add("btn");
+        addQuantityButton.classList.add("btn-info");
+        addQuantityButton.classList.add("rounded");
+        addQuantityButton.classList.add("btn-sm");
+        quantityColumn.append(addQuantityButton);
 
-            // Création d'un "td" contenant le bouton supprimer
-            let deleteButtonContainer = document.createElement("td");
-            let deleteButton = document.createElement("button");
-            document.createElement("deleteButtonContainer");
-            document.createElement("deleteButton");
-            deleteButtonContainer.classList.add("col-md-2");
-            deleteButton.innerText = "Supprimer";
-            deleteButtonContainer.append(deleteButton);
-            ligneArticle.appendChild(deleteButtonContainer);
+        // Création de la colonne Prix Total dans un TD
+        let totalPriceColumn = document.createElement("td");
+        let totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
+        document.createElement("totalPriceColumn");
+        totalPriceColumn.classList.add("total-price");
+        totalPrice.classList.add("col-md-2");
+        totalPriceColumn.append(totalPriceColumnAmount + " €");
+        ligneArticle.append(totalPriceColumn);
 
-            // FONCTION PERMETTANT DE SUPPRIMER LE PRODUIT AU PANIER dans le LocalStorage
-            function deleteFromBasket() {
-            }
+        // Création d'un "td" contenant le bouton supprimer
+        let deleteButtonContainer = document.createElement("td");
+        let deleteButton = document.createElement("button");
+        document.createElement("deleteButtonContainer");
+        document.createElement("deleteButton");
+        deleteButtonContainer.classList.add("col-md-2");
+        deleteButton.classList.add("rounded-pill");
+        deleteButton.innerText = "Supprimer";
+        deleteButton.classList.add("btn");
+        deleteButton.classList.add("btn-info");
+        deleteButton.classList.add("btn-sm");
+        deleteButtonContainer.append(deleteButton);
+        ligneArticle.appendChild(deleteButtonContainer);
 
-            // STOCKAGE DU PRODUIT + COULEUR (en objet) dans l'array "BasketContent"
-            deleteButton.addEventListener("click", function() {
-                console.log(productInBasket.articleName, productInBasket.articleColor);
-                deleteFromBasket();
-                alert("Vous venez de supprimer " + productInBasket.articleName + " (coloris " + productInBasket.articleColor + " ) du panier");
-            })
-            console.log(totalPriceColumnAmount);
+        // STOCKAGE DU PRODUIT + COULEUR (en objet) dans l'array "BasketContent"
+        deleteButton.addEventListener("click", function() {
+            console.log(article.articleName, article.articleColor);
+            deleteFromBasket();
+            alert("Vous venez de supprimer " + article.articleName + " (coloris " + article.articleColor + " ) du panier");
         })
-    } else {
-        message.innerText = "Votre panier est vide";
-    }
-};
+
+    })
+}
+
+// FONCTION PERMETTANT DE SUPPRIMER LE PRODUIT AU PANIER dans le LocalStorage
+function deleteFromBasket() {
+    let i=0; i != productList.length; i++;
+    productList.deleteRow(`${i}`);
+}
 
 // Création d'une ligne pour le total de la commande
 let totalOrderPrice = document.createElement("p");
@@ -179,9 +195,8 @@ totalOrderPrice.classList.add("col-md-12");
 totalOrderPrice.style.fontWeight = 'bold';
 totalOrderPrice.id = "total-order-price";
 basket.append(totalOrderPrice);
-document.getElementById("total-order-price").innerText = "Montant total de votre commande :" + " " + " €";
+document.getElementById("total-order-price").innerText = "Montant total de votre commande : " + "" + " €";
 
 // Création du formulaire
-
 
 ///////////      VERIFIER POSSIBILITÉ D'AJOUTER PLUSIEURS FOIS LE MEME ARTICLE      \\\\\\\\\\\\\\\\\\\\\\\

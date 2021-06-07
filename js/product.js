@@ -5,12 +5,6 @@ let id = params.get("id");
 // Création d'une variable pointant vers la section de page "Product"
 const productCard = document.getElementById('product-card');
 
-// IDENTIFICATION ET INSTALLATION DU PANIER QUI RECUPERE LES PRODUITS dans le LocalStorage
-let basketContent = JSON.parse(localStorage.getItem("basketContent"));
-if (basketContent === null) {
-    basketContent = [];
-}
-
 
 //     Utilisation de l'API FETCH pour récupérer les données SUR L'ID en question
 fetch(`http://localhost:3000/api/teddies/${id}`)
@@ -82,25 +76,47 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
                 this.articleImage = data.imageUrl;
                 this.articleName = data.name;
                 this.articleColor = `${colorChoice.value}`;
-                this.articleQuantity = 1;
+                this.articleQuantity = articleQuantity;
                 this.articlePrice = data.price;
             }
         }
         // Création d'une variable pour les NOUVEAUX PRODUITS
         let newProduct = new product;
+        let basket = localStorage.getItem("basket");
+        let basketContent = JSON.parse(basket);
 
-        // FONCTION PERMETTANT D'AJOUTER LE PRODUIT AU PANIER dans le LocalStorage
-        function addToBasket() {
-            basketContent.push(newProduct);
-            localStorage.setItem("basketContent", JSON.stringify(basketContent));
+        function initBasket () {
+            basketContent = [];
         }
+
+        function addToBasket() {
+            product.articleQuantity +=1;
+            basketContent.push(newProduct);
+            localStorage.setItem("basket", JSON.stringify(basketContent));
+        }
+
+        function addQuantity() {
+            newProduct.articleQuantity +=1;
+            localStorage.setItem("basket", JSON.stringify(basketContent));
+        }
+        
 
         // STOCKAGE DU PRODUIT + COULEUR (en objet) dans l'array "BasketContent"
         button.addEventListener("click", function() {
             // Création d'une variable pour stocker la couleur choisie par l'utilisateur
             let selectedColor = (colorChoice.value);
             console.log(data.name, selectedColor);
-            addToBasket();
-            alert("Vous venez d'ajouter " + data.name + " (coloris " + `${selectedColor}` + " ) au panier");
+            if (basketContent === null) {
+                initBasket();
+                alert("Init panier");
+                addToBasket();
+                alert("Vous venez d'ajouter " + data.name + " (coloris " + `${selectedColor}` + " ) au panier");
+            } else if (basketContent[newProduct]) {
+                addQuantity();
+                alert("Vous venez d'ajouter de nouveau " + data.name + " (coloris " + `${selectedColor}` + " ) à votre panier");
+            } else {
+                addToBasket();
+                alert("Vous venez d'ajouter " + data.name + " (coloris " + `${selectedColor}` + " ) au panier");
+            }
         })
     })
