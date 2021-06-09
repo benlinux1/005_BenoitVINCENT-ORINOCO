@@ -76,8 +76,15 @@ deleteTd.innerText = "Suppression";
 productDescription.appendChild(deleteTd);
 
 // Identification du Panier d'article depuis le Local Storage
-let listOfArticles = localStorage.getItem("basketContent");
+let listOfArticles = localStorage.getItem("basket");
 let listOfArticlesJSON = JSON.parse(listOfArticles);
+
+
+// Implémentation d'un tableau dans le LS pour stocker les prix
+let priceTable= [];
+let totalPriceTable = JSON.stringify(priceTable);
+localStorage.setItem("tableauPrix", totalPriceTable);
+
 
 // RECUPERATION DE TOUS LES ARTICLES AU PANIER
 // Message si panier vide
@@ -157,6 +164,8 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         totalPrice.classList.add("col-md-2");
         totalPriceColumn.append(totalPriceColumnAmount + " €");
         ligneArticle.append(totalPriceColumn);
+        priceTable.push(totalPriceColumnAmount);
+        localStorage.setItem("tableauPrix", JSON.stringify(priceTable));
 
         // Création d'un "td" contenant le bouton supprimer
         let deleteButtonContainer = document.createElement("td");
@@ -188,6 +197,10 @@ function deleteFromBasket() {
     productList.deleteRow(`${i}`);
 }
 
+// Calcul de la somme des prix du tableau
+const reducer = (accumulator, currentValue) => accumulator + currentValue;
+console.log(priceTable.reduce(reducer));
+
 // Création d'une ligne pour le total de la commande
 let totalOrderPrice = document.createElement("p");
 document.createElement("totalOrderPrice");
@@ -195,7 +208,7 @@ totalOrderPrice.classList.add("col-md-12");
 totalOrderPrice.style.fontWeight = 'bold';
 totalOrderPrice.id = "total-order-price";
 basket.append(totalOrderPrice);
-document.getElementById("total-order-price").innerText = "Montant total de votre commande : " + "" + " €";
+document.getElementById("total-order-price").innerText = "Montant total de votre commande : " + priceTable.reduce(reducer) + " €";
 
 // Création du formulaire
 

@@ -5,7 +5,6 @@ let id = params.get("id");
 // Création d'une variable pointant vers la section de page "Product"
 const productCard = document.getElementById('product-card');
 
-
 //     Utilisation de l'API FETCH pour récupérer les données SUR L'ID en question
 fetch(`http://localhost:3000/api/teddies/${id}`)
      //    TEST DU SERVEUR
@@ -26,7 +25,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
     .then(data => {                         
         console.log("Voici les données renvoyées par le serveur");
         // Montre les données converties => l'objet et ses attributs dans la console
-        console.log(data);
+        /* console.log(data); */
         // Création d'une variable article pour stocker le produit
         const article = document.createElement("article");
         // Création de l'élément article à l'intérieur de la section "product"
@@ -40,7 +39,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
             <img class="card-img-top text-center" src='${data.imageUrl}' alt="Photo de l'ours en peluche ${data.name}" title="Ours en peluche ${data.name}"/>
             <h2 class="col-12 text-center">${data.name}</h2>
             <p class="col-12 text-center"><strong>Choisissez votre coloris</strong><br /></p>
-            <select id="color-choice" name=select class="mx-auto"></select>
+            <select id="color-choice" name=select class="mx-auto colorchoice"></select>
             <p class="col-12 text-center">Prix : ${data.price / 100} €</p>
             <p class="col-9 mx-auto my-2 text-center"><strong>Description du produit</strong><br />${data.description}</p>
             <button type="submit" id="btn-basket" href="" data-id="${id}">Ajouter au panier</button>
@@ -57,65 +56,58 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
         button.classList.add("my-2");
         
         // FONCTIONNALITÉ POUR PERSONNALISER LE PRODUIT (ici la couleur) 
-        const colorChoice = document.getElementById("color-choice")
-        const colors = data.colors;
-        colors.forEach(element => {
-            const option = document.createElement("option");
+        let colorChoice = document.getElementById("color-choice");
+        let colors = data.colors;
+        colors.forEach(color => {
+            let option = document.createElement("option");
+            option.append(color);
             colorChoice.append(option);
-            option.append(element);
-        })
+        });
 
         // AJOUT DE MARGES AUTOUR DU SELECTEUR DE COULEURS
         colorChoice.classList.add("mt-2");
         colorChoice.classList.add("mb-3");
 
-        // Création de la CLASSE PRODUIT
-        class product {
-            constructor(articleId, articleImage, articleName, articleColor, articleQuantity, articlePrice) {
-                this.articleId = data._id;
-                this.articleImage = data.imageUrl;
-                this.articleName = data.name;
-                this.articleColor = `${colorChoice.value}`;
-                this.articleQuantity = 1;
-                this.articlePrice = data.price;
-            }
-        }
-        // Création d'une variable pour les NOUVEAUX PRODUITS
-        let newProduct = new product;
+        // Identification du panier
         let basket = localStorage.getItem("basket");
         let basketContent = JSON.parse(basket);
 
+        // Fonction pour initialiser le panier
         function initBasket () {
             basketContent = [];
+            alert("Panier initialisé")
         }
 
+        // Fonction pour ajouter un produit au panier
         function addToBasket() {
             basketContent.push(newProduct);
             localStorage.setItem("basket", JSON.stringify(basketContent));
+            alert("Vous venez d'ajouter " + data.name + " (coloris " + `${colorChoice.value}` + " ) au panier");
         }
 
-        function addQuantity() {
-            basketContent.push([newProduct.articleQuantity+=1]);
-            localStorage.setItem("basket", JSON.stringify(basketContent));
+        // Création de la CLASSE PRODUIT
+        class product {
+            constructor(articleId, articleImage, articleName, articleColor, articlePrice) {
+                this.articleId = data._id;
+                this.articleImage = data.imageUrl;
+                this.articleName = data.name;
+                this.articleColor = `${colorChoice.value}`;         /// PROBLEME : La couleur ne se met pas à jour dans le LS ///
+                this.articleQuantity = 1;                            /// ALORS QUE SUR EVENTLISTENER ET SUR ALERT TOUT EST OK /////
+                this.articlePrice = data.price;                      
+            }
         }
         
-
+        // Création d'une variable pour les NOUVEAUX PRODUITS
+        let newProduct = new product;
+        
         // STOCKAGE DU PRODUIT + COULEUR (en objet) dans l'array "BasketContent"
         button.addEventListener("click", function() {
-            // Création d'une variable pour stocker la couleur choisie par l'utilisateur
-            let selectedColor = (colorChoice.value);
-            console.log(data.name, selectedColor);
+            console.log(data.name, `${colorChoice.value}`);
             if (basketContent === null) {
                 initBasket();
-                alert("Init panier");
                 addToBasket();
-                alert("Vous venez d'ajouter " + data.name + " (coloris " + `${selectedColor}` + " ) au panier");
-            } else if (basketContent[newProduct]) {
-                addQuantity();
-                alert("Vous venez d'ajouter DE NOUVEAU " + data.name + " (coloris " + `${selectedColor}` + " ) à votre panier");
             } else {
                 addToBasket();
-                alert("Vous venez d'ajouter " + data.name + " (coloris " + `${selectedColor}` + " ) au panier");
             }
         })
     })
