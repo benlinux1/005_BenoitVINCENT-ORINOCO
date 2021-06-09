@@ -181,6 +181,10 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         deleteButtonContainer.append(deleteButton);
         ligneArticle.appendChild(deleteButtonContainer);
 
+        lessQuantityButton.addEventListener("click", function() {
+            console.log(article.articleQuantity -= 1);
+        })
+
         // STOCKAGE DU PRODUIT + COULEUR (en objet) dans l'array "BasketContent"
         deleteButton.addEventListener("click", function() {
             console.log(article.articleName, article.articleColor);
@@ -199,16 +203,16 @@ function deleteFromBasket() {
 
 // Calcul de la somme des prix du tableau
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
+let totalOrder = priceTable.reduce(reducer);
 console.log(priceTable.reduce(reducer));
 
 // Création d'une ligne pour le total de la commande
-let totalOrderPrice = document.createElement("p");
+let totalOrderPriceText = document.createElement("p");
 document.createElement("totalOrderPrice");
-totalOrderPrice.classList.add("col-md-12");
-totalOrderPrice.style.fontWeight = 'bold';
-totalOrderPrice.id = "total-order-price";
-basket.append(totalOrderPrice);
-document.getElementById("total-order-price").innerText = "Montant total de votre commande : " + priceTable.reduce(reducer) + " €";
+totalOrderPriceText.classList.add("col-md-12");
+totalOrderPriceText.style.fontWeight = 'bold';
+basket.append(totalOrderPriceText);
+totalOrderPriceText.innerText = "Montant total de votre commande : " + totalOrder + " €";
 
 // Création du formulaire
 
