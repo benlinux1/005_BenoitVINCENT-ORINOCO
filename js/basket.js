@@ -85,6 +85,12 @@ let priceTable= [];
 let totalPriceTable = JSON.stringify(priceTable);
 localStorage.setItem("tableauPrix", totalPriceTable);
 
+// Implémentation d'un tableau dans le LS pour stocker les Id de produits
+let productArray = [];
+let products = localStorage.getItem("products");
+let listofProducts = JSON.parse(products);
+localStorage.setItem("products", JSON.stringify(productArray));
+
 
 // RECUPERATION DE TOUS LES ARTICLES AU PANIER
 // Message si panier vide
@@ -93,6 +99,10 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
 // Construction du Tableau pour chaque au panier
 } else {
     listOfArticlesJSON.forEach(article => {
+        // Stockage de l'Id des produits dans le Local Storage
+        productArray.push(article.articleId);
+        localStorage.setItem("products", JSON.stringify(productArray));
+
         // Création de la ligne article dans un TR
         let ligneArticle = document.createElement("tr");
         document.createElement("ligneArticle");
@@ -187,19 +197,22 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
 
         // STOCKAGE DU PRODUIT + COULEUR (en objet) dans l'array "BasketContent"
         deleteButton.addEventListener("click", function() {
-            console.log(article.articleName, article.articleColor);
+            console.log(article.articleName);
             deleteFromBasket();
-            alert("Vous venez de supprimer " + article.articleName + " (coloris " + article.articleColor + " ) du panier");
+            alert("Vous venez de supprimer l'ours " + article.articleName + " du panier");
         })
+
+        // FONCTION PERMETTANT DE SUPPRIMER LE PRODUIT AU PANIER dans le LocalStorage
+        function deleteFromBasket() {               // NE FONCTIONNE PAS : supprime le premier élément du tableau
+            for (let product in productList) {}
+            let i=0; i < productList.length; i++;
+            productList.deleteRow(`${i}`);
+}
 
     })
 }
 
-// FONCTION PERMETTANT DE SUPPRIMER LE PRODUIT AU PANIER dans le LocalStorage
-function deleteFromBasket() {
-    let i=0; i != productList.length; i++;
-    productList.deleteRow(`${i}`);
-}
+
 
 // Calcul de la somme des prix du tableau
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -211,9 +224,23 @@ let totalOrderPriceText = document.createElement("p");
 document.createElement("totalOrderPrice");
 totalOrderPriceText.classList.add("col-md-12");
 totalOrderPriceText.style.fontWeight = 'bold';
-totalOrderPriceText.classList.add("text-info");
+totalOrderPriceText.classList.add("col-md-12");
 basket.append(totalOrderPriceText);
 totalOrderPriceText.innerText = "Montant total de votre commande : " + totalOrder + " €";
+
+
+// Création des données de contact
+class contact {
+    constructor(firstname, lastname, address, city, email) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.address = address;
+        this.city = city;
+        this.email = email;
+    }
+}
+let newContact = new contact;
+
 
 // Création du formulaire
 let formSection = document.getElementById("order-form");
@@ -224,12 +251,10 @@ form.classList.add("col-sm-5");
 form.classList.add("text-center");
 form.id = "form";
 form.method = "POST";
-form.action = "form_1.php";
+form.action = "http://localhost:3000/api/teddies/order";
 formSection.append(form);
 
 let fieldSet = document.createElement("fieldset");
-form.append(fieldSet);
-
 fieldSet. innerHTML =
 `
     <legend class="mt-2">Formulaire de commande</legend>
@@ -262,17 +287,52 @@ fieldSet. innerHTML =
     </label>
     <input type="email" name="mail" id="email" placeholder="abcdef@gmail.com" class="form-control" required />
     <br />
-    <button type="submit" id="btn-order" href="" data-id="${id}">Valider la commande</button>
+    <button type="submit" id="btn-order" onclick="document.location.href = 'confirmation.html';">Valider la commande</button>
 
 `
 
-// PERSONNALISATION DU BOUTON "Ajouter au Panier"     
-// Création d'une variable button pour designer le bouton
+form.append(fieldSet);
+
+// PERSONNALISATION DU BOUTON "Valider la commande"     
 const button = document.getElementById("btn-order"); 
 button.classList.add("btn");
 button.classList.add("btn-info");
 button.classList.add("mx-auto");
-button.classList.add("my-2");
+button.classList.add("my-1");
+
+
+let firstName = document.getElementById("firstname");
+let lastName = document.getElementById("lastname");
+let address = document.getElementById("address");
+let city = document.getElementById("city");
+let eMail = document.getElementById("email");
+
+
+// Ecoute de tous les champs de formulaire à chaque modifications + envoi au LocalStorage
+firstName.addEventListener("change",function() {
+    newContact.firstname = firstName.value;
+    localStorage.setItem("contact", JSON.stringify(newContact));
+})
+lastName.addEventListener("change",function() {
+    newContact.lastname = lastName.value;
+    localStorage.setItem("contact", JSON.stringify(newContact));
+})
+address.addEventListener("change",function() {
+    newContact.address = address.value;
+    localStorage.setItem("contact", JSON.stringify(newContact));
+})
+city.addEventListener("change",function() {
+    newContact.city = city.value;
+    localStorage.setItem("contact", JSON.stringify(newContact));
+})   
+eMail.addEventListener("change",function() {
+    newContact.email = eMail.value;
+    localStorage.setItem("contact", JSON.stringify(newContact));
+})
+
+
+
+
 
 
 
