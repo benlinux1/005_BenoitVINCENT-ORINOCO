@@ -39,12 +39,12 @@ productName.classList.add("col-md-2");
 productName.innerText = "Nom";
 productDescription.append(productName);
 
-// Récupération de la couleur dans le localStorage
+/* Récupération de la couleur dans le localStorage
 let productColor = document.createElement("td");
 document.createElement("productColor");
 productColor.classList.add("col-md-1");
 productColor.innerText = "Couleur";
-productDescription.append(productColor);
+productDescription.append(productColor); */
 
 // Création d'un "td" contenant le prix du produit
 let productPrice = document.createElement("td");
@@ -115,12 +115,12 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         nameColumn.classList.add("col-md-2");
         ligneArticle.append(nameColumn);
         
-        // Création de la colonne Color dans un TD
+        /* Création de la colonne Color dans un TD
         let colorColumn = document.createElement("td");
         document.createElement("colorColumn");
         colorColumn.append(article.articleColor);
         colorColumn.classList.add("col-md-1");
-        ligneArticle.append(colorColumn);
+        ligneArticle.append(colorColumn); */
 
         // Création de la colonne Price dans un TD
         let priceColumn = document.createElement("td");
@@ -211,9 +211,74 @@ let totalOrderPriceText = document.createElement("p");
 document.createElement("totalOrderPrice");
 totalOrderPriceText.classList.add("col-md-12");
 totalOrderPriceText.style.fontWeight = 'bold';
+totalOrderPriceText.classList.add("text-info");
 basket.append(totalOrderPriceText);
 totalOrderPriceText.innerText = "Montant total de votre commande : " + totalOrder + " €";
 
 // Création du formulaire
+let formSection = document.getElementById("order-form");
+let form = document.createElement("form");
+form.classList.add("container");
+form.classList.add("bgc-white");
+form.classList.add("col-sm-5");
+form.classList.add("text-center");
+form.id = "form";
+form.method = "POST";
+form.action = "form_1.php";
+formSection.append(form);
+
+let fieldSet = document.createElement("fieldset");
+form.append(fieldSet);
+
+fieldSet. innerHTML =
+`
+    <legend class="mt-2">Formulaire de commande</legend>
+    <label class="mt-2" for="firstname">
+        Quel est votre prénom ?
+    </label>
+    <input type="text" id="firstname" placeholder="Vincent" class="form-control" required autofocus/>
+    <br />
+
+    <label for="lastname">
+        Quel est votre nom ?
+    </label>
+    <input type="text" id="lastname" placeholder="DUPONT" class="form-control" required/>
+    <br />
+
+    <label for="address">
+        Quelle est votre adresse ?
+    </label>
+    <input type="text" id="address" placeholder="Central Park" class="form-control" required />
+    <br />
+
+    <label for="city">
+        Dans quelle ville habitez-vous ?
+    </label>
+    <input type="text" id="city" placeholder="New York" class="form-control" required />
+    <br />
+
+    <label for="email">
+        Quelle est votre adresse e-mail ?
+    </label>
+    <input type="email" name="mail" id="email" placeholder="abcdef@gmail.com" class="form-control" required />
+    <br />
+    <button type="submit" id="btn-order" href="" data-id="${id}">Valider la commande</button>
+
+`
+
+// PERSONNALISATION DU BOUTON "Ajouter au Panier"     
+// Création d'une variable button pour designer le bouton
+const button = document.getElementById("btn-order"); 
+button.classList.add("btn");
+button.classList.add("btn-info");
+button.classList.add("mx-auto");
+button.classList.add("my-2");
+
+
+
+
+
+
+
 
 ///////////      VERIFIER POSSIBILITÉ D'AJOUTER PLUSIEURS FOIS LE MEME ARTICLE      \\\\\\\\\\\\\\\\\\\\\\\

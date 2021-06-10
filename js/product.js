@@ -91,7 +91,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
                 this.articleId = data._id;
                 this.articleImage = data.imageUrl;
                 this.articleName = data.name;
-                this.articleColor = `${colorChoice.value}`;         /// PROBLEME : La couleur ne se met pas à jour dans le LS ///
+                // this.articleColor = `${colorChoice.value}`;         /// PROBLEME : La couleur ne se met pas à jour dans le LS ///
                 this.articleQuantity = 1;                            /// ALORS QUE SUR EVENTLISTENER ET SUR ALERT TOUT EST OK /////
                 this.articlePrice = data.price;                      
             }
