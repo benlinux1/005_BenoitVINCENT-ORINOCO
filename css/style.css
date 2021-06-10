@@ -29,6 +29,24 @@ margin-top: 10px;
     cursor: pointer;
 }
 
+@media screen and (max-width: 480px) {
+    .not-for-mobile {
+        display: none;
+    }
+
+    #basket img {
+        width: 80px;
+    }
+
+    .large-for-mobile {
+        width: 160px;
+    }
+    .total-price {
+        width: 70px;
+    }
+}
+
+
 @media screen and (max-width: 769px) {
     #all-teddies .card > img {
         margin: auto;

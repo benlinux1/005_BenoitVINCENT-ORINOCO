@@ -28,7 +28,7 @@ productList.append(productDescription);
 // Création d'un "td" "image du produit"
 let productImage = document.createElement("td");
 document.createElement("productImage");
-productImage.classList.add("col-md-2");
+productImage.classList.add("col-2");
 productImage.innerText = "Photo du produit";
 productDescription.appendChild(productImage);
 
@@ -36,6 +36,7 @@ productDescription.appendChild(productImage);
 let productName = document.createElement("td");
 document.createElement("productName");
 productName.classList.add("col-md-2");
+productName.classList.add("not-for-mobile");
 productName.innerText = "Nom";
 productDescription.append(productName);
 
@@ -49,14 +50,15 @@ productDescription.append(productColor); */
 // Création d'un "td" contenant le prix du produit
 let productPrice = document.createElement("td");
 document.createElement("productPrice");
-productPrice.classList.add("col-md-2");
+productPrice.classList.add("col-2");
+productPrice.classList.add("not-for-mobile");
 productPrice.innerText = "Prix unitaire";
 productDescription.appendChild(productPrice);
 
 // Création d'un "td" contenant la quantité du produit
 let productQuantity = document.createElement("td");
 document.createElement("productQuantity");
-productQuantity.classList.add("col-md-1");
+productQuantity.classList.add("col-2");
 productQuantity.innerText = "Quantité";
 productDescription.appendChild(productQuantity);
 
@@ -64,14 +66,15 @@ productDescription.appendChild(productQuantity);
 let totalPrice = document.createElement("td");
 let totalPriceAmount = `${productQuantity}` * `${productPrice}`;
 document.createElement("totalPrice");
-totalPrice.classList.add("col-md-2");
+totalPrice.classList.add("col-2");
 totalPrice.innerText = "Prix total";
 productDescription.appendChild(totalPrice);
 
 // Création d'un "td" contenant le bouton supprimer
 let deleteTd = document.createElement("td");
 document.createElement("deleteTd");
-deleteTd.classList.add("col-md-2");
+deleteTd.classList.add("col-2");
+deleteTd.classList.add("not-for-mobile");
 deleteTd.innerText = "Suppression";
 productDescription.appendChild(deleteTd);
 
@@ -128,14 +131,15 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         document.createElement("imageProduct");
         imageProduct.src = article.articleImage;
         imageColumn.append(imageProduct);
-        imageColumn.classList.add("col-md-2");
+        imageColumn.classList.add("col-2");
         ligneArticle.append(imageColumn);
 
         // Création de la colonne Name dans un TD
         let nameColumn = document.createElement("td");
         document.createElement("nameColumn");
         nameColumn.append(article.articleName);
-        nameColumn.classList.add("col-md-2");
+        nameColumn.classList.add("col-2");
+        nameColumn.classList.add("not-for-mobile");
         ligneArticle.append(nameColumn);
         
         /* Création de la colonne Color dans un TD
@@ -149,7 +153,8 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         let priceColumn = document.createElement("td");
         document.createElement("priceColumn");
         priceColumn.append(article.articlePrice/100 + " €");
-        priceColumn.classList.add("col-md-2");
+        priceColumn.classList.add("col-2");
+        priceColumn.classList.add("not-for-mobile");
         ligneArticle.append(priceColumn);
 
         // Création de la colonne Quantity dans un TD
@@ -165,7 +170,8 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         lessQuantityButton.classList.add("btn-sm");
         quantityColumn.append(lessQuantityButton);
         quantityColumn.append(article.articleQuantity);
-        quantityColumn.classList.add("col-md-2");
+        quantityColumn.classList.add("col-2");
+        quantityColumn.classList.add("large-for-mobile");
         ligneArticle.append(quantityColumn);
 
         // Création d'un "td" contenant le bouton +
@@ -184,7 +190,7 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         let totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
         document.createElement("totalPriceColumn");
         totalPriceColumn.classList.add("total-price");
-        totalPrice.classList.add("col-md-2");
+        totalPrice.classList.add("col-2");
         totalPriceColumn.append(totalPriceColumnAmount + " €");
         ligneArticle.append(totalPriceColumn);
         priceTable.push(totalPriceColumnAmount);
@@ -195,12 +201,14 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         let deleteButton = document.createElement("button");
         document.createElement("deleteButtonContainer");
         document.createElement("deleteButton");
-        deleteButtonContainer.classList.add("col-md-2");
+        deleteButtonContainer.classList.add("col-2");
+        deleteButtonContainer.classList.add("not-for-mobile");
         deleteButton.classList.add("rounded-pill");
         deleteButton.innerText = "Supprimer";
         deleteButton.classList.add("btn");
         deleteButton.classList.add("btn-info");
         deleteButton.classList.add("btn-sm");
+        
         deleteButtonContainer.append(deleteButton);
         ligneArticle.appendChild(deleteButtonContainer);
 
@@ -216,24 +224,27 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
             location.reload();
         })
 
-        // STOCKAGE DU PRODUIT + COULEUR (en objet) dans l'array "BasketContent"
-        deleteButton.addEventListener("click", function() {
+        // SUPPRESSION d'un article
+        function deleteArticle() {
             let index = listOfArticlesJSON.indexOf(article);
-            console.log(article.articleName);
             listOfArticlesJSON.splice(index, 1);
             localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
             alert("Vous venez de supprimer l'ours " + article.articleName + " du panier");
+        }
+
+        // FONCTION PERMETTANT DE SUPPRIMER L'OBJET
+        deleteButton.addEventListener("click", function() {
+            deleteArticle();
             location.reload();
         })
 
-        // FONCTION PERMETTANT DE SUPPRIMER LE PRODUIT AU PANIER dans le LocalStorage
-        function deleteFromBasket() {               // NE FONCTIONNE PAS : supprime le premier élément du tableau
-            localStorage.removeItem(listOfArticlesJSON.article);
+        // si quantité = 0 => supprime l'article
+        if (article.articleQuantity === 0) {
+            deleteArticle();
+            location.reload();
         }
     })
 }
-
-
 
 // Calcul de la somme des prix du tableau
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
