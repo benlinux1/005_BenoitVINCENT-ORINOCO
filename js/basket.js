@@ -205,38 +205,30 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         ligneArticle.appendChild(deleteButtonContainer);
 
         lessQuantityButton.addEventListener("click", function() {
-            console.log(article.articleQuantity -= 1);
-            newProduct.articleId = article.articleId;
-            newProduct.articleName = article.articleName;
-            newProduct.articlePrice = article.articlePrice;
-            newProduct.articleQuantity -= 1;
+            article.articleQuantity -= 1;
             localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
             location.reload();
         })
 
         addQuantityButton.addEventListener("click", function() {
-            console.log(article.articleQuantity += 1);
-            newProduct.articleId = article.articleId;
-            newProduct.articleName = article.articleName;
-            newProduct.articlePrice = article.articlePrice;
-            newProduct.articleQuantity += 1;
+            article.articleQuantity += 1;
             localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
             location.reload();
         })
 
         // STOCKAGE DU PRODUIT + COULEUR (en objet) dans l'array "BasketContent"
         deleteButton.addEventListener("click", function() {
+            let index = listOfArticlesJSON.indexOf(article);
             console.log(article.articleName);
-            deleteFromBasket();
+            listOfArticlesJSON.splice(index, 1);
+            localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
             alert("Vous venez de supprimer l'ours " + article.articleName + " du panier");
+            location.reload();
         })
 
         // FONCTION PERMETTANT DE SUPPRIMER LE PRODUIT AU PANIER dans le LocalStorage
         function deleteFromBasket() {               // NE FONCTIONNE PAS : supprime le premier élément du tableau
-            for (let product in productList) {
-            let i=0; i < productList.length; i++;
-            productList.deleteRow(`${i}`);
-            }
+            localStorage.removeItem(listOfArticlesJSON.article);
         }
     })
 }
