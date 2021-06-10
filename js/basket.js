@@ -250,8 +250,8 @@ form.classList.add("bgc-white");
 form.classList.add("col-sm-5");
 form.classList.add("text-center");
 form.id = "form";
-form.method = "POST";
-form.action = "http://localhost:3000/api/teddies/order";
+form.method = "GET";
+form.action = "confirmation.html";
 formSection.append(form);
 
 let fieldSet = document.createElement("fieldset");
@@ -287,7 +287,7 @@ fieldSet. innerHTML =
     </label>
     <input type="email" name="mail" id="email" placeholder="abcdef@gmail.com" class="form-control" required />
     <br />
-    <button type="submit" id="btn-order" onclick="document.location.href = 'confirmation.html';">Valider la commande</button>
+    <button type="submit" id="btn-order";">Valider la commande</button>
 
 `
 
@@ -300,7 +300,7 @@ button.classList.add("btn-info");
 button.classList.add("mx-auto");
 button.classList.add("my-1");
 
-
+// Ecoute de tous les champs de formulaire à chaque modifications PUIS envoi au LocalStorage
 let firstName = document.getElementById("firstname");
 let lastName = document.getElementById("lastname");
 let address = document.getElementById("address");
@@ -308,27 +308,23 @@ let city = document.getElementById("city");
 let eMail = document.getElementById("email");
 
 
-// Ecoute de tous les champs de formulaire à chaque modifications + envoi au LocalStorage
 firstName.addEventListener("change",function() {
     newContact.firstname = firstName.value;
-    localStorage.setItem("contact", JSON.stringify(newContact));
 })
 lastName.addEventListener("change",function() {
     newContact.lastname = lastName.value;
-    localStorage.setItem("contact", JSON.stringify(newContact));
 })
 address.addEventListener("change",function() {
     newContact.address = address.value;
-    localStorage.setItem("contact", JSON.stringify(newContact));
 })
 city.addEventListener("change",function() {
     newContact.city = city.value;
-    localStorage.setItem("contact", JSON.stringify(newContact));
 })   
 eMail.addEventListener("change",function() {
     newContact.email = eMail.value;
     localStorage.setItem("contact", JSON.stringify(newContact));
 })
+
 
 
 

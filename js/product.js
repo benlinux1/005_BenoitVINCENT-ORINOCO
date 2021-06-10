@@ -60,7 +60,8 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
         let colors = data.colors;
         colors.forEach(color => {
             let option = document.createElement("option");
-            option.append(color);
+            option.text = color;
+            option.value = color;
             colorChoice.append(option);
         });
 
@@ -82,8 +83,10 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
         function addToBasket() {
             basketContent.push(newProduct);
             localStorage.setItem("basket", JSON.stringify(basketContent));
-            alert("Vous venez d'ajouter " + data.name + " (coloris " + `${colorChoice.value}` + " ) au panier");
+            alert("Vous venez d'ajouter " + data.name + " (coloris " + selectedColor + " ) au panier");
         }
+        let select = document.getElementById("color-choice");
+        let selectedColor = select.options[select.selectedIndex].value;
 
         // Création de la CLASSE PRODUIT
         class product {
@@ -91,7 +94,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
                 this.articleId = data._id;
                 this.articleImage = data.imageUrl;
                 this.articleName = data.name;
-                // this.articleColor = `${colorChoice.value}`;         /// PROBLEME : La couleur ne se met pas à jour dans le LS ///
+                this.articleColor = selectedColor;         /// PROBLEME : La couleur ne se met pas à jour dans le LS ///
                 this.articleQuantity = 1;                            /// ALORS QUE SUR EVENTLISTENER ET SUR ALERT TOUT EST OK /////
                 this.articlePrice = data.price;                      
             }
@@ -99,6 +102,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
         
         // Création d'une variable pour les NOUVEAUX PRODUITS
         let newProduct = new product;
+        
         
         // STOCKAGE DU PRODUIT + COULEUR (en objet) dans l'array "BasketContent"
         button.addEventListener("click", function() {
