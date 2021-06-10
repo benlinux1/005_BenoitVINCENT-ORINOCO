@@ -79,7 +79,6 @@ productDescription.appendChild(deleteTd);
 let listOfArticles = localStorage.getItem("basket");
 let listOfArticlesJSON = JSON.parse(listOfArticles);
 
-
 // Implémentation d'un tableau dans le LS pour stocker les prix
 let priceTable= [];
 let totalPriceTable = JSON.stringify(priceTable);
@@ -91,6 +90,17 @@ let products = localStorage.getItem("products");
 let listofProducts = JSON.parse(products);
 localStorage.setItem("products", JSON.stringify(productArray));
 
+class product {
+    constructor(articleId, articleImage, articleName, articleColor, articlePrice) {
+        this.articleId = articleId;
+        this.articleImage = articleImage;
+        this.articleName = articleName;
+        this.articleColor = articleColor;         
+        this.articleQuantity = 1;                           
+        this.articlePrice = articlePrice;                      
+    }
+}
+
 
 // RECUPERATION DE TOUS LES ARTICLES AU PANIER
 // Message si panier vide
@@ -99,6 +109,9 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
 // Construction du Tableau pour chaque au panier
 } else {
     listOfArticlesJSON.forEach(article => {
+
+        let newProduct = new product;
+
         // Stockage de l'Id des produits dans le Local Storage
         productArray.push(article.articleId);
         localStorage.setItem("products", JSON.stringify(productArray));
@@ -193,6 +206,22 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
 
         lessQuantityButton.addEventListener("click", function() {
             console.log(article.articleQuantity -= 1);
+            newProduct.articleId = article.articleId;
+            newProduct.articleName = article.articleName;
+            newProduct.articlePrice = article.articlePrice;
+            newProduct.articleQuantity -= 1;
+            localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
+            location.reload();
+        })
+
+        addQuantityButton.addEventListener("click", function() {
+            console.log(article.articleQuantity += 1);
+            newProduct.articleId = article.articleId;
+            newProduct.articleName = article.articleName;
+            newProduct.articlePrice = article.articlePrice;
+            newProduct.articleQuantity += 1;
+            localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
+            location.reload();
         })
 
         // STOCKAGE DU PRODUIT + COULEUR (en objet) dans l'array "BasketContent"
@@ -204,11 +233,11 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
 
         // FONCTION PERMETTANT DE SUPPRIMER LE PRODUIT AU PANIER dans le LocalStorage
         function deleteFromBasket() {               // NE FONCTIONNE PAS : supprime le premier élément du tableau
-            for (let product in productList) {}
+            for (let product in productList) {
             let i=0; i < productList.length; i++;
             productList.deleteRow(`${i}`);
-}
-
+            }
+        }
     })
 }
 
@@ -224,7 +253,7 @@ let totalOrderPriceText = document.createElement("p");
 document.createElement("totalOrderPrice");
 totalOrderPriceText.classList.add("col-md-12");
 totalOrderPriceText.style.fontWeight = 'bold';
-totalOrderPriceText.classList.add("col-md-12");
+totalOrderPriceText.classList.add("text-info");
 basket.append(totalOrderPriceText);
 totalOrderPriceText.innerText = "Montant total de votre commande : " + totalOrder + " €";
 
