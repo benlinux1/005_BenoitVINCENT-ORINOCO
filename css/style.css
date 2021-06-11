@@ -89,3 +89,7 @@ margin-top: 10px;
 td > img {
     width: 100px;
 }
+
+input:invalid {
+    border: red solid 3px;
+  }

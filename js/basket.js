@@ -273,7 +273,6 @@ class contact {
 }
 let newContact = new contact;
 
-
 // Création du formulaire
 let formSection = document.getElementById("order-form");
 let form = document.createElement("form");
@@ -293,36 +292,35 @@ fieldSet. innerHTML =
     <label class="mt-2" for="firstname">
         Quel est votre prénom ?
     </label>
-    <input type="text" id="firstname" placeholder="Vincent" class="form-control" required autofocus/>
+    <input type="text" id="firstname" placeholder="Vincent" class="form-control" required pattern="[A-Za-z]" autofocus title="Veuillez entrer votre prénom"/>
     <br />
 
     <label for="lastname">
         Quel est votre nom ?
     </label>
-    <input type="text" id="lastname" placeholder="DUPONT" class="form-control" required/>
+    <input type="text" id="lastname" placeholder="DUPONT" class="form-control" required pattern="[A-Za-z]" title="Veuillez entrer votre nom"/>
     <br />
 
     <label for="address">
         Quelle est votre adresse ?
     </label>
-    <input type="text" id="address" placeholder="Central Park" class="form-control" required />
+    <input type="text" id="address" placeholder="Central Park" class="form-control" pattern="[A-Za-z0-9_]" required title="Veuillez entrer votre adresse"/>
     <br />
 
     <label for="city">
         Dans quelle ville habitez-vous ?
     </label>
-    <input type="text" id="city" placeholder="New York" class="form-control" required />
+    <input type="text" id="city" placeholder="New York" class="form-control" required title="Veuillez entrer votre ville"/>
     <br />
 
     <label for="email">
         Quelle est votre adresse e-mail ?
     </label>
-    <input type="email" name="mail" id="email" placeholder="abcdef@gmail.com" class="form-control" required />
+    <input type="email" name="mail" id="email" placeholder="abcdef@gmail.com" class="form-control" required title="Veuillez entrer votre adresse e-mail"/>
     <br />
     <button type="submit" id="btn-order";">Valider la commande</button>
 
 `
-
 form.append(fieldSet);
 
 // PERSONNALISATION DU BOUTON "Valider la commande"     
