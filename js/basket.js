@@ -35,17 +35,17 @@ productDescription.appendChild(productImage);
 // Récupération du nom de produit dans le localStorage
 let productName = document.createElement("td");
 document.createElement("productName");
-productName.classList.add("col-md-2");
+productName.classList.add("col-2");
 productName.classList.add("not-for-mobile");
 productName.innerText = "Nom";
 productDescription.append(productName);
 
-/* Récupération de la couleur dans le localStorage
+// Récupération de la couleur dans le localStorage
 let productColor = document.createElement("td");
 document.createElement("productColor");
-productColor.classList.add("col-md-1");
+productColor.classList.add("col-1");
 productColor.innerText = "Couleur";
-productDescription.append(productColor); */
+productDescription.append(productColor);
 
 // Création d'un "td" contenant le prix du produit
 let productPrice = document.createElement("td");
@@ -142,12 +142,12 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         nameColumn.classList.add("not-for-mobile");
         ligneArticle.append(nameColumn);
         
-        /* Création de la colonne Color dans un TD
+        // Création de la colonne Color dans un TD
         let colorColumn = document.createElement("td");
         document.createElement("colorColumn");
         colorColumn.append(article.articleColor);
         colorColumn.classList.add("col-md-1");
-        ligneArticle.append(colorColumn); */
+        ligneArticle.append(colorColumn);
 
         // Création de la colonne Price dans un TD
         let priceColumn = document.createElement("td");
