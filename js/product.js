@@ -52,6 +52,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
             <select id="color-choice" name=select class="mx-auto colorchoice"></select>
             <p class="col-12 text-center">Prix : ${data.price / 100} €</p>
             <p class="col-9 mx-auto my-2 text-center"><strong>Description du produit</strong><br />${data.description}</p>
+            <p class="col-12 text-center"><strong>Couleur selectionnée : </strong><span id="selected-color"><span></p>
             <button type="submit" id="btn-basket" href="" data-id="${id}">Ajouter au panier</button>
         `
         // Insère l'article dans la variable Product
@@ -73,9 +74,19 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
             option.value = color;
             colorChoice.append(option);
         });
+
         // AJOUT DE MARGES AUTOUR DU SELECTEUR DE COULEURS
         colorChoice.classList.add("mt-2");
         colorChoice.classList.add("mb-3");
+
+        // Stockage de la couleur dans un SPAN
+        let selectedColor = document.getElementById("selected-color");
+        selectedColor.innerText = colorChoice.value;
+
+        // Stockage de la couleur à l'intérieur du produit pour chaque modification
+        colorChoice.addEventListener("change", function() {
+            selectedColor.innerText = colorChoice.value;
+        })
 
         // Identification du panier
         let basket = localStorage.getItem("basket");
@@ -87,118 +98,36 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
             alert("Panier initialisé")
         }
 
-        // Stockage de la couleur à l'intérieur du produit pour chaque modification
-        colorChoice.addEventListener("change", function() {
-            console.log(colorChoice.value);
-        })
+        // Déclaration des nouveaux produits
+        let newProduct = new product;
 
-        // Stockage de la couleur et du nom de produit (en page) dans une nouvelle variable
-        let selectedColor = colorChoice.value;
+        // Stockage du nom de produit (en page) dans une nouvelle variable
         let productName = document.getElementById("product-name");
 
-        // Création d'un nouveau produit
-        let newProduct = new product;
-        newProduct.articleId = data._id;
-        newProduct.articleImage = data.imageUrl;
-        newProduct.articleName = data.name;
-        newProduct.articleColor = colorChoice.value;         
-        newProduct.articleQuantity = 1;                           
-        newProduct.articlePrice = data.price;
-
-        let secondProduct = new product;
-        secondProduct.articleId = data._id;
-        secondProduct.articleImage = data.imageUrl;
-        secondProduct.articleName = data.name;
-        secondProduct.articleColor = colorChoice.value;         
-        secondProduct.articleQuantity = 1;                           
-        secondProduct.articlePrice = data.price;
-
-        let thirdProduct = new product;
-        thirdProduct.articleId = data._id;
-        thirdProduct.articleImage = data.imageUrl;
-        thirdProduct.articleName = data.name;
-        thirdProduct.articleColor = colorChoice.value;         
-        thirdProduct.articleQuantity = 1;                           
-        thirdProduct.articlePrice = data.price;
-
-        let forthProduct = new product;
-        forthProduct.articleId = data._id;
-        forthProduct.articleImage = data.imageUrl;
-        forthProduct.articleName = data.name;
-        forthProduct.articleColor = colorChoice.value;         
-        forthProduct.articleQuantity = 1;                           
-        forthProduct.articlePrice = data.price;
-
-
         // Fonction pour ajouter un produit au panier
-        function addToBasket() { 
-            newProduct.articleColor = colorChoice.value;
+        function addToBasket(newProduct) { 
             basketContent.push(newProduct);
             localStorage.setItem("basket", JSON.stringify(basketContent));
             alert("Vous venez d'ajouter " + data.name + " (coloris " + colorChoice.value + ") au panier");
         }
 
-        function addAnother(secondProduct) {
-            secondProduct.articleColor = colorChoice.value;
-            basketContent.push(secondProduct);
-            localStorage.setItem("basket", JSON.stringify(basketContent));
-            alert("Vous venez d'ajouter " + data.name + " (coloris " + colorChoice.value + ") au panier");
-        }
-
-        function addAnother(thirdProduct) {
-            thirdProduct.articleColor = colorChoice.value;
-            basketContent.push(thirdProduct);
-            localStorage.setItem("basket", JSON.stringify(basketContent));
-            alert("Vous venez d'ajouter " + data.name + " (coloris " + colorChoice.value + ") au panier");
-        }
-
-        function addAnother(forthProduct) {
-            forthProduct.articleColor = colorChoice.value;
-            basketContent.push(forthProduct);
-            localStorage.setItem("basket", JSON.stringify(basketContent));
-            alert("Vous venez d'ajouter " + data.name + " (coloris " + colorChoice.value + ") au panier");
-        }
-        
-        function addNewRef() {
-            basketContent.push(new product);
-            localStorage.setItem("basket", JSON.stringify(basketContent));
-            alert("Vous venez d'ajouter " + data.name + " (coloris " + colorChoice.value + ") au panier");
-        }
-        
-
-        // STOCKAGE DU PRODUIT + COULEUR (en objet) dans l'array "BasketContent"
         button.addEventListener("click", function() {
+            // Configuration des attributs d'un nouveau produit
+            newProduct = {
+                articleId : data._id,
+                articleImage : data.imageUrl,
+                articleName : data.name,
+                articleColor : selectedColor.textContent,         
+                articleQuantity : 1,                            
+                articlePrice : data.price   
+            }
             if (basketContent === null) {
                 initBasket();
-                addToBasket();
-            // Si le produit personnalisé est déjà dans le "BasketContent" (nom + couleur) => On ajoute +1
-            } else if ((newProduct.articleName === productName.textContent) && (newProduct.articleColor === colorChoice.value) && (basketContent.length =1)) {
-                newProduct.articleQuantity += 1;
-                localStorage.setItem("basket", JSON.stringify(basketContent));
-                alert("Voici donc un LE PREMIER" + data.name + " (coloris " + colorChoice.value + ") de plus !!!");
-            } else if ((secondProduct.articleName == productName.textContent) && (secondProduct.articleColor === colorChoice.value)) {
-                secondProduct.articleQuantity += 1;
-                localStorage.setItem("basket", JSON.stringify(basketContent));
-                alert("Voici donc un LE DEUXIEME" + data.name + " (coloris " + colorChoice.value + ") de plus !!!");
-            } else if ((newProduct.articleName === productName.textContent) && (newProduct.articleColor != colorChoice.value) && (basketContent.length <=1)) {
-                alert("deuxième produit ajouté");
-                addAnother(secondProduct);
-            } else if ((thirdProduct.articleName === productName.textContent) && (thirdProduct.articleColor === colorChoice.value)) {
-                thirdProduct.articleQuantity += 1;
-                localStorage.setItem("basket", JSON.stringify(basketContent));
-                alert("Voici donc un LE TROISIEME" + data.name + " (coloris " + colorChoice.value + ") de plus !!!");
-            } else if ((productName.textContent === newProduct.articleName) && (colorChoice.value != newProduct.articleColor) && (productName.textContent === secondProduct.articleName) && (colorChoice.value != secondProduct.articleColor) && (basketContent.length <=2)) {
-                alert("troisième produit ajouté");
-                addAnother(thirdProduct);
-            } else if ((forthProduct.articleName === productName.textContent) && (forthProduct.articleColor === colorChoice.value)) {
-                forthProduct.articleQuantity += 1;
-                localStorage.setItem("basket", JSON.stringify(basketContent));
-                alert("Voici donc un LE QUATRIEME" + data.name + " (coloris " + colorChoice.value + ") de plus !!!");
-            } else if ((productName.textContent === newProduct.articleName) && (colorChoice.value != newProduct.articleColor) && (productName.textContent === secondProduct.articleName) && (colorChoice.value != secondProduct.articleColor) && (productName.textContent === thirdProduct.articleName) && (colorChoice.value != thirdProduct.articleColor) && (basketContent.length <=3)) {
-                alert("quatrième produit ajouté");
-                addAnother(forthProduct);
-            } else {    
-                addNewRef();
+                addToBasket(newProduct);
+            } else if (basketContent.find(el => el.articleId == data._id) && basketContent.find(el => el.articleColor == selectedColor.textContent)) {
+                alert("Ce produit est déjà dans votre panier!!!");
+            } else {
+                addToBasket(newProduct);
             }
         })
     })
