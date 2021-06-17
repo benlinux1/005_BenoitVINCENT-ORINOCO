@@ -219,7 +219,10 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         lessQuantityButton.classList.add("rounded");
         lessQuantityButton.classList.add("btn-sm");
         quantityColumn.append(lessQuantityButton);
-        quantityColumn.append(article.articleQuantity);
+        let quantity = document.createElement("span");
+        quantity.id = "quantity";
+        quantity.append(article.articleQuantity);
+        quantityColumn.append(quantity);
         quantityColumn.classList.add("col-sm-3");
         quantityColumn.classList.add("px-1");
         quantityColumn.classList.add("border-top");
@@ -277,14 +280,18 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         lessQuantityButton.addEventListener("click", function() {
             article.articleQuantity -= 1;
             localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
-            location.reload();
+            quantity.innerText= article.articleQuantity;
+            // Si la quantité passe à 0, l'article est supprimé
+            if ((article.articleQuantity === 0) || (quantity == 0)) {
+                deleteArticle();
+            }
         })
 
         // Fonctionnalité pour augmenter la quantité au clic
         addQuantityButton.addEventListener("click", function() {
             article.articleQuantity += 1;
             localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
-            location.reload();
+            quantity.innerText= article.articleQuantity;
         })
 
         // Fonction pour supprimer un article du Local Storage et du tableau, avec message d'information
@@ -293,19 +300,21 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
             listOfArticlesJSON.splice(index, 1);
             localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
             alert("Vous venez de supprimer l'ours " + article.articleName + " (coloris " + article.articleColor + ") du panier");
+            location.reload();
         }
 
         // Fonctionnalité pour supprimer l'objet au clic sur bouton "supprimer"
         deleteButton.addEventListener("click", function() {
             deleteArticle();
-            location.reload();
         })
 
         // si quantité = 0 => supprime l'article
-        if (article.articleQuantity === 0) {
-            deleteArticle();
-            location.reload();
-        }
+        let quantityControl = document.getElementById("quantity");
+        quantityControl.addEventListener ("change", function() {
+            if ((article.articleQuantity === 0) || (quantity == 0)) {
+                deleteArticle();
+            }
+        })
     })
 }
 
@@ -415,17 +424,3 @@ eMail.addEventListener("change",function() {
     newContact.email = eMail.value;
     localStorage.setItem("contact", JSON.stringify(newContact));
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-///////////      VERIFIER POSSIBILITÉ D'AJOUTER PLUSIEURS FOIS LE MEME ARTICLE      \\\\\\\\\\\\\\\\\\\\\\\
