@@ -325,9 +325,9 @@ totalOrderPriceText.innerText = "Montant total de votre commande : " + totalOrde
 
 // Création des données de contact
 class contact {
-    constructor(firstname, lastname, address, city, email) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+    constructor(firstName, lastName, address, city, email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.address = address;
         this.city = city;
         this.email = email;
@@ -354,19 +354,19 @@ fieldSet. innerHTML =
     <label class="mt-2" for="firstname">
         Quel est votre prénom ?
     </label>
-    <input type="text" id="firstname" placeholder="Vincent" class="form-control" required pattern="[A-Za-z]" autofocus title="Veuillez entrer votre prénom"/>
+    <input type="text" id="firstname" placeholder="Vincent" class="form-control" required autofocus title="Veuillez entrer votre prénom"/>
     <br />
 
     <label for="lastname">
         Quel est votre nom ?
     </label>
-    <input type="text" id="lastname" placeholder="DUPONT" class="form-control" required pattern="[A-Za-z]" title="Veuillez entrer votre nom"/>
+    <input type="text" id="lastname" placeholder="DUPONT" class="form-control" required title="Veuillez entrer votre nom"/>
     <br />
 
     <label for="address">
         Quelle est votre adresse ?
     </label>
-    <input type="text" id="address" placeholder="Central Park" class="form-control" pattern="[A-Za-z0-9_]" required title="Veuillez entrer votre adresse"/>
+    <input type="text" id="address" placeholder="Central Park" class="form-control" required title="Veuillez entrer votre adresse"/>
     <br />
 
     <label for="city">
@@ -400,10 +400,10 @@ let city = document.getElementById("city");
 let eMail = document.getElementById("email");
 
 firstName.addEventListener("change",function() {
-    newContact.firstname = firstName.value;
+    newContact.firstName = firstName.value;
 })
 lastName.addEventListener("change",function() {
-    newContact.lastname = lastName.value;
+    newContact.lastName = lastName.value;
 })
 address.addEventListener("change",function() {
     newContact.address = address.value;
