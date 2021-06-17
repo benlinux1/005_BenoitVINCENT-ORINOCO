@@ -138,6 +138,12 @@ let toSend = {
 }
 console.log(toSend);
 
+// Création de la variable pour stocker l'OrderId
+let orderConfirm = document.createElement("p");
+orderConfirm.classList.add("text-center");
+recap.append(orderConfirm);
+
+// Création de la requête POST pour envoi des données
 fetch("http://localhost:3000/api/teddies/order", {
 	method: "POST",
 	headers: { 
@@ -145,4 +151,13 @@ fetch("http://localhost:3000/api/teddies/order", {
         'Content-Type': 'application/json' 
     },
 	body: JSON.stringify(toSend),
-});
+})
+// Promesses pour récupérer l'OrderId et l'afficher
+.then(res => res.json())
+.then(json => {
+    orderConfirm.innerText = "Votre numéro de commande est le : " + JSON.stringify(json.orderId);
+})
+
+
+
+
