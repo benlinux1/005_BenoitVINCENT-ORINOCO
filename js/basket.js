@@ -37,6 +37,7 @@ productImage.classList.add("border-top");
 productImage.classList.add("border-bottom");
 productImage.classList.add("border-dark");
 productImage.classList.add("text-info");
+productImage.style.fontWeight = 'bold';
 productImage.innerText = "Photo";
 productDescription.appendChild(productImage);
 
@@ -49,6 +50,7 @@ productName.classList.add("border-top");
 productName.classList.add("border-bottom");
 productName.classList.add("border-dark");
 productName.classList.add("text-info");
+productName.style.fontWeight = 'bold';
 productName.innerText = "Modèle";
 productDescription.append(productName);
 
@@ -60,6 +62,7 @@ productColor.classList.add("border-top");
 productColor.classList.add("border-bottom");
 productColor.classList.add("border-dark");
 productColor.classList.add("text-info");
+productColor.style.fontWeight = 'bold';
 productColor.innerText = "Couleur";
 productDescription.append(productColor);
 
@@ -72,6 +75,7 @@ productPrice.classList.add("border-top");
 productPrice.classList.add("border-bottom");
 productPrice.classList.add("border-dark");
 productPrice.classList.add("text-info");
+productPrice.style.fontWeight = 'bold';
 productPrice.innerText = "Prix unitaire";
 productDescription.appendChild(productPrice);
 
@@ -83,6 +87,7 @@ productQuantity.classList.add("border-top");
 productQuantity.classList.add("border-bottom");
 productQuantity.classList.add("border-dark");
 productQuantity.classList.add("text-info");
+productQuantity.style.fontWeight = 'bold';
 productQuantity.innerText = "Quantité";
 productDescription.appendChild(productQuantity);
 
@@ -95,6 +100,7 @@ totalPrice.classList.add("border-top");
 totalPrice.classList.add("border-bottom");
 totalPrice.classList.add("border-dark");
 totalPrice.classList.add("text-info");
+totalPrice.style.fontWeight = 'bold';
 totalPrice.innerText = "Prix total";
 productDescription.appendChild(totalPrice);
 
@@ -163,6 +169,9 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         imageProduct.src = article.articleImage;
         imageColumn.append(imageProduct);
         imageColumn.classList.add("col-2");
+        imageColumn.classList.add("border-top");
+        imageColumn.classList.add("border-bottom");
+        imageColumn.classList.add("border-dark");
         ligneArticle.append(imageColumn);
 
         // Insertion du nom de l'article dans un TD
@@ -171,6 +180,9 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         nameColumn.append(article.articleName);
         nameColumn.classList.add("col-2");
         nameColumn.classList.add("not-for-mobile");
+        nameColumn.classList.add("border-top");
+        nameColumn.classList.add("border-bottom");
+        nameColumn.classList.add("border-dark");
         ligneArticle.append(nameColumn);
         
         // Insertion de la couleur de l'article dans un TD
@@ -178,6 +190,9 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         document.createElement("colorColumn");
         colorColumn.append(article.articleColor);
         colorColumn.classList.add("col-xs-1");
+        colorColumn.classList.add("border-top");
+        colorColumn.classList.add("border-bottom");
+        colorColumn.classList.add("border-dark");
         ligneArticle.append(colorColumn);
 
         // Insertion du prix de l'article dans un TD
@@ -185,6 +200,9 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         document.createElement("priceColumn");
         priceColumn.append(article.articlePrice/100 + " €");
         priceColumn.classList.add("col-2");
+        priceColumn.classList.add("border-top");
+        priceColumn.classList.add("border-bottom");
+        priceColumn.classList.add("border-dark");
         priceColumn.classList.add("not-for-mobile");
         ligneArticle.append(priceColumn);
 
@@ -203,7 +221,10 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         quantityColumn.append(lessQuantityButton);
         quantityColumn.append(article.articleQuantity);
         quantityColumn.classList.add("col-sm-3");
-        quantityColumn.classList.add("col-");
+        quantityColumn.classList.add("px-1");
+        quantityColumn.classList.add("border-top");
+        quantityColumn.classList.add("border-bottom");
+        quantityColumn.classList.add("border-dark");
         quantityColumn.classList.add("large-for-mobile");
         ligneArticle.append(quantityColumn);
 
@@ -224,6 +245,9 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         document.createElement("totalPriceColumn");
         totalPriceColumn.classList.add("total-price");
         totalPriceColumn.classList.add("col-2");
+        totalPriceColumn.classList.add("border-top");
+        totalPriceColumn.classList.add("border-bottom");
+        totalPriceColumn.classList.add("border-dark");
         totalPriceColumn.classList.add("px-0");
         totalPriceColumn.append(totalPriceColumnAmount + " €");
         ligneArticle.append(totalPriceColumn);
@@ -241,7 +265,8 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         deleteButtonContainer.classList.add("border-start-1");
         deleteButtonContainer.classList.add("border-dark");
         deleteButton.classList.add("rounded-pill");
-        deleteButton.innerText = "Supprimer";
+        deleteButton.innerHTML = `<i class="fa fa-trash" aria-hidden="true"></i>`
+        // deleteButton.innerText = "Supprimer";
         deleteButton.classList.add("btn");
         deleteButton.classList.add("btn-info");
         deleteButton.classList.add("btn-sm");
