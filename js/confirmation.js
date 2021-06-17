@@ -119,7 +119,6 @@ let totalOrderPriceText = document.createElement("p");
 document.createElement("totalOrderPrice");
 totalOrderPriceText.classList.add("col-md-12");
 totalOrderPriceText.style.fontWeight = 'bold';
-totalOrderPriceText.classList.add("text-info");
 totalOrderPriceText.classList.add("text-center");
 recap.append(totalOrderPriceText);
 totalOrderPriceText.innerText = "Montant total de votre commande : " + totalOrder + " €";
@@ -141,6 +140,8 @@ console.log(toSend);
 // Création de la variable pour stocker l'OrderId
 let orderConfirm = document.createElement("p");
 orderConfirm.classList.add("text-center");
+orderConfirm.style.fontWeight = 'bold';
+orderConfirm.classList.add("text-info");
 recap.append(orderConfirm);
 
 // Création de la requête POST pour envoi des données
