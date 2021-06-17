@@ -91,26 +91,26 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
         // Identification du panier
         let basket = localStorage.getItem("basket");
         let basketContent = JSON.parse(basket);
-
-        // Fonction pour initialiser le panier
+        
+        // Fonction qui créé un ARRAY vide dans le Local Storage, pour stocker les produits
         function initBasket () {
-            basketContent = [];
-            alert("Panier initialisé")
+            let listOfArticles = [];
+            localStorage.setItem("basket", JSON.stringify(listOfArticles));
         }
 
-        // Déclaration des nouveaux produits
-        let newProduct = new product;
-
-        // Stockage du nom de produit (en page) dans une nouvelle variable
-        let productName = document.getElementById("product-name");
+        // Si le panier est vide, on l'initialise
+        if (basketContent === null) {
+            initBasket();
+        }
 
         // Fonction pour ajouter un produit au panier
-        function addToBasket(newProduct) { 
+        function addToBasket() { 
             basketContent.push(newProduct);
             localStorage.setItem("basket", JSON.stringify(basketContent));
             alert("Vous venez d'ajouter " + data.name + " (coloris " + colorChoice.value + ") au panier");
         }
 
+        // Ecouteur sur le bouton au clic
         button.addEventListener("click", function() {
             // Configuration des attributs d'un nouveau produit
             newProduct = {
@@ -121,13 +121,14 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
                 articleQuantity : 1,                            
                 articlePrice : data.price   
             }
-            if (basketContent === null) {
-                initBasket();
-                addToBasket(newProduct);
-            } else if (basketContent.find(product => product.articleId == data._id) && basketContent.find(product => product.articleColor == selectedColor.textContent)) {
+            // Si le produit est déjà dans le panier => Message
+            if (basketContent.find(product => product.articleId == data._id) 
+                && (basketContent.find(product => product.articleColor == selectedColor.textContent))) {
                 alert("Ce produit est déjà dans votre panier!!!");
-            } else {
-                addToBasket(newProduct);
+            }
+            // Sinon => on l'ajoute au panier
+            else {
+                addToBasket();
             }
         })
     })

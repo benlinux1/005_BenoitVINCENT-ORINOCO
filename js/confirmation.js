@@ -3,8 +3,8 @@ let section = document.getElementById("message");
 let contactData = localStorage.getItem("contact");
 let contactDataJSON = JSON.parse(contactData);
 
-let firstName = contactDataJSON.firstname;
-let lastName = contactDataJSON.lastname;
+let firstName = contactDataJSON.firstName;
+let lastName = contactDataJSON.lastName;
 let address = contactDataJSON.address;
 let city = contactDataJSON.city;
 let email = contactDataJSON.email;
@@ -133,7 +133,7 @@ let products = JSON.parse(localStorage.getItem("products"));
 console.log(products);
 
 // Variable à envoyer à la requête POST
-const toSend = {
+let toSend = {
     contact, products,
 }
 console.log(toSend);
