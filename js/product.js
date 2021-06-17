@@ -34,13 +34,13 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
     // Promise pour les éléments JSON reçus du server
     .then(data => {                         
         console.log("Voici les données renvoyées par le serveur");
-        // Montre les données converties => l'objet et ses attributs dans la console
-        /* console.log(data); */
+        /* Montre les données converties => l'objet et ses attributs dans la console
+        console.log(data); */
         // Création d'une variable article pour stocker le produit
         const article = document.createElement("article");
         // Création de l'élément article à l'intérieur de la section "product"
         document.createElement("article");
-        // Ajoute de 2 classes bootstrap à l'article
+        // Ajout de 2 classes bootstrap à l'article
         article.classList.add("card");     
         article.style.margin = "auto";
         // Création de l'objet en HTML : la carte et son contenu
@@ -57,8 +57,8 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
         `
         // Insère l'article dans la variable Product
         productCard.append(article);
+
         // PERSONNALISATION DU BOUTON "Ajouter au Panier"     
-        // Création d'une variable button pour designer le bouton
         const button = document.getElementById("btn-basket"); 
         button.classList.add("btn");
         button.classList.add("btn-info");
@@ -124,7 +124,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
             if (basketContent === null) {
                 initBasket();
                 addToBasket(newProduct);
-            } else if (basketContent.find(el => el.articleId == data._id) && basketContent.find(el => el.articleColor == selectedColor.textContent)) {
+            } else if (basketContent.find(product => product.articleId == data._id) && basketContent.find(product => product.articleColor == selectedColor.textContent)) {
                 alert("Ce produit est déjà dans votre panier!!!");
             } else {
                 addToBasket(newProduct);
