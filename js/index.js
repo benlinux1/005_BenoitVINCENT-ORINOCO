@@ -15,14 +15,13 @@ fetch("http://localhost:3000/api/teddies")
             console.log("Problème de connexion au serveur"); 
         }
     })
-
     // Promise pour les éléments reçus du server  
     .then(data => { 
         /* console.log("Voici les données renvoyées par le serveur");
         // Montre les données converties => Array(5) dans la console
         console.log(data); */
 
-        //    INSERTION DES DONNEES DE L'API DANS UNE BOUCLE POUR CHAQUE ELEMENT RECUS  
+        // INSERTION DES DONNEES DE L'API DANS UNE BOUCLE POUR CHAQUE ELEMENT RECUS  
         data.forEach(product => {
             // Création d'une variable article pour stocker chaque produit
             const article = document.createElement("article");

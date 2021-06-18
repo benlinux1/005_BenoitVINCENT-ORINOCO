@@ -400,21 +400,13 @@ let firstName = document.getElementById("firstname");
 let lastName = document.getElementById("lastname");
 let address = document.getElementById("address");
 let city = document.getElementById("city");
-let eMail = document.getElementById("email");
-
-firstName.addEventListener("change",function() {
+let email = document.getElementById("email");
+ 
+email.addEventListener("change",function() {
     newContact.firstName = firstName.value;
-})
-lastName.addEventListener("change",function() {
     newContact.lastName = lastName.value;
-})
-address.addEventListener("change",function() {
     newContact.address = address.value;
-})
-city.addEventListener("change",function() {
     newContact.city = city.value;
-})   
-eMail.addEventListener("change",function() {
-    newContact.email = eMail.value;
+    newContact.email = email.value;
     localStorage.setItem("contact", JSON.stringify(newContact));
 })

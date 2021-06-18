@@ -14,12 +14,14 @@ let email = contactDataJSON.email;
 let thanks = document.createElement("h1");
 thanks.innerText = "Merci pour votre commande " + firstName;
 thanks.classList.add("text-center");
+thanks.classList.add("my-4");
 message.append(thanks);
 
 let recap = document.createElement("div");
 let recapMessage = document.createElement("p");
-recapMessage.innerText = "Les produits ci-dessous arriveront prochainement à cette adresse : " + "\n" + contactDataJSON.address + "\n" + contactDataJSON.city;
+recapMessage.innerText = "Les produits ci-dessous arriveront prochainement à cette adresse : " + "\n\n" + contactDataJSON.address + "\n" + contactDataJSON.city;
 recapMessage.classList.add("text-center");
+recapMessage.classList.add("my-4");
 message.append(recapMessage);
 section.append(recap);
 

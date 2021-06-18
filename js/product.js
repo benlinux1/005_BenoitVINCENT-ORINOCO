@@ -100,7 +100,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
         };
 
         // Fonction p ajouter un produit au panier
-        function addToBasket() { 
+            function addToBasket() { 
             basketContent.push(newProduct);
             localStorage.setItem("basket", JSON.stringify(basketContent));
             alert("Vous venez d'ajouter " + data.name + " (coloris " + colorChoice.value + ") au panier");
