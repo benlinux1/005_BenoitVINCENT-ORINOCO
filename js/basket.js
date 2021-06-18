@@ -104,32 +104,22 @@ totalPrice.style.fontWeight = 'bold';
 totalPrice.innerText = "Prix total";
 productDescription.appendChild(totalPrice);
 
-/* // Création d'un "td" SUPPRIMER
-let deleteTd = document.createElement("td");
-document.createElement("deleteTd");
-deleteTd.classList.add("col-2");
-deleteTd.classList.add("not-for-mobile");
-productDescription.appendChild(deleteTd); */
-
 // Création du Tbody
 let tbody = document.createElement("tbody");
 productList.append(tbody);
 
-// Identification du Panier d'article depuis le Local Storage
+// Identification du Panier d'articles depuis le Local Storage
 let listOfArticles = localStorage.getItem("basket");
 let listOfArticlesJSON = JSON.parse(listOfArticles);
 
 // Implémentation d'un tableau dans le Local Storage pour stocker les prix
 let priceTable= [];
 let totalPriceTable = JSON.stringify(priceTable);
-localStorage.setItem("tableauPrix", totalPriceTable);
+localStorage.setItem("prices", totalPriceTable);
 
 // Implémentation d'un tableau dans le Local Storage pour stocker les Id de produits
-let productArray = [];
-let products = localStorage.getItem("products");
-let listofProducts = JSON.parse(products);
-localStorage.setItem("products", JSON.stringify(productArray));
-
+let productIdArray = [];
+localStorage.setItem("productsId", JSON.stringify(productIdArray));
 
 // Fonction asynchrone pour calculer automatiquement la somme des prix du tableau
 async function calculateTotalOrder() {
@@ -143,12 +133,12 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
     message.innerText = "Votre panier est vide";
 // Construction du Tableau pour chaque au panier
 } else {
-    // Récupération de tous les articles stockés dans le Local Storage
+    // Pour chaque article stocké dans le Local Storage
     listOfArticlesJSON.forEach(article => {
 
         // Stockage de l'Id des produits dans le Local Storage pour future requête POST
-        productArray.push(article.articleId);
-        localStorage.setItem("products", JSON.stringify(productArray));
+        productIdArray.push(article.articleId);
+        localStorage.setItem("productsId", JSON.stringify(productIdArray));
 
         // Création de la ligne article dans un TR puis insertion dans Tbody
         let ligneArticle = document.createElement("tr");
@@ -252,7 +242,7 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         totalPriceColumn.append(totalArticlePrice);
         ligneArticle.append(totalPriceColumn);
         priceTable.push(totalPriceColumnAmount);
-        localStorage.setItem("tableauPrix", JSON.stringify(priceTable));
+        localStorage.setItem("prices", JSON.stringify(priceTable));
 
         // Création et insertion du bouton supprimer pour chaque article
         let deleteButtonContainer = document.createElement("td");
@@ -280,7 +270,7 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
             totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
             totalArticlePrice.innerText = totalPriceColumnAmount + " €";
             priceTable.push(-article.articlePrice/100);
-            localStorage.setItem("tableauPrix", JSON.stringify(priceTable));
+            localStorage.setItem("prices", JSON.stringify(priceTable));
             localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
             // Si la quantité passe à 0, l'article est supprimé
             if ((article.articleQuantity === 0) || (quantity == 0)) {
@@ -296,7 +286,7 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
             totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
             totalArticlePrice.innerText = totalPriceColumnAmount + " €";
             priceTable.push(article.articlePrice/100);
-            localStorage.setItem("tableauPrix", JSON.stringify(priceTable));
+            localStorage.setItem("prices", JSON.stringify(priceTable));
             localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
             calculateTotalOrder();
         })

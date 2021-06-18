@@ -1,14 +1,16 @@
+// Identification de la section principale
 let section = document.getElementById("message");
 
+// Identification des données de contact
 let contactData = localStorage.getItem("contact");
 let contactDataJSON = JSON.parse(contactData);
-
 let firstName = contactDataJSON.firstName;
 let lastName = contactDataJSON.lastName;
 let address = contactDataJSON.address;
 let city = contactDataJSON.city;
 let email = contactDataJSON.email;
 
+// Insertion d'un message de remerciement personnalisé pour la commande
 let thanks = document.createElement("h1");
 thanks.innerText = "Merci pour votre commande " + firstName;
 thanks.classList.add("text-center");
@@ -16,7 +18,7 @@ message.append(thanks);
 
 let recap = document.createElement("div");
 let recapMessage = document.createElement("p");
-recapMessage.innerText = "Voici les produits que nous allons vous envoyer";
+recapMessage.innerText = "Les produits ci-dessous arriveront prochainement à cette adresse : " + "\n" + contactDataJSON.address + "\n" + contactDataJSON.city;
 recapMessage.classList.add("text-center");
 message.append(recapMessage);
 section.append(recap);
@@ -109,7 +111,7 @@ listOfArticlesJSON.forEach(article => {
 })
 
 // Calcul de la somme des prix du tableau
-let priceTable = JSON.parse(localStorage.getItem("tableauPrix"));
+let priceTable = JSON.parse(localStorage.getItem("prices"));
 let totalPriceTable = JSON.stringify(priceTable);
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
 let totalOrder = priceTable.reduce(reducer);
@@ -128,7 +130,7 @@ let contact = JSON.parse(localStorage.getItem("contact"));
 console.log(contact);
 
 // Variable pour récupérer le tableau contenant les ID de produits pour la requête POST
-let products = JSON.parse(localStorage.getItem("products"));
+let products = JSON.parse(localStorage.getItem("productsId"));
 console.log(products);
 
 // Variable à envoyer à la requête POST
@@ -158,7 +160,3 @@ fetch("http://localhost:3000/api/teddies/order", {
 .then(json => {
     orderConfirm.innerText = "Votre numéro de commande est le : " + JSON.stringify(json.orderId);
 })
-
-
-
-
