@@ -15,13 +15,14 @@ class product {
         this.articlePrice = articlePrice;                      
     }
 }
+let newProduct = new product;
 
-//     Utilisation de l'API FETCH pour récupérer les données SUR L'ID en question
+// Utilisation de l'API avec FETCH pour récupérer les données sur l'ID en question
 fetch(`http://localhost:3000/api/teddies/${id}`)
-     //    TEST DU SERVEUR
+     // TEST DU SERVEUR
     .then(function(res) {
         if (res.ok) {     
-            console.log("Connexion au serveur réussie");
+            // console.log("Connexion au serveur réussie");
             // Si réponse serveur ok, transforme les données en JSON
             return res.json(); 
         }
@@ -33,10 +34,10 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
     // UTILISATION DES DONNEES DU SERVEUR
     // Promise pour les éléments JSON reçus du server
     .then(data => {                         
-        console.log("Voici les données renvoyées par le serveur");
+        // console.log("Voici les données renvoyées par le serveur");
         /* Montre les données converties => l'objet et ses attributs dans la console
         console.log(data); */
-        // Création d'une variable article pour stocker le produit
+        // Création d'une constante "article" pour stocker le produit
         const article = document.createElement("article");
         // Création de l'élément article à l'intérieur de la section "product"
         document.createElement("article");
@@ -55,7 +56,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
             <p class="col-12 text-center"><strong>Couleur selectionnée : </strong><span id="selected-color"><span></p>
             <button type="submit" id="btn-basket" href="" data-id="${id}">Ajouter au panier</button>
         `
-        // Insère l'article dans la variable Product
+        // Insère l'article dans la variable ProductCard
         productCard.append(article);
 
         // PERSONNALISATION DU BOUTON "Ajouter au Panier"     
@@ -91,19 +92,14 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
         // Identification du panier
         let basket = localStorage.getItem("basket");
         let basketContent = JSON.parse(basket);
-        
-        // Fonction qui créé un ARRAY vide dans le Local Storage, pour stocker les produits
-        function initBasket () {
-            let listOfArticles = [];
-            localStorage.setItem("basket", JSON.stringify(listOfArticles));
-        }
 
-        // Si le panier est vide, on l'initialise
+        // Si le panier est vide, on l'initialise (sérialisation d'un tableau vide dans le Local Storage)
         if (basketContent === null) {
-            initBasket();
-        }
+            basketContent = [];
+            localStorage.setItem("basket", JSON.stringify(basketContent));
+        };
 
-        // Fonction pour ajouter un produit au panier
+        // Fonction p ajouter un produit au panier
         function addToBasket() { 
             basketContent.push(newProduct);
             localStorage.setItem("basket", JSON.stringify(basketContent));
@@ -121,9 +117,9 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
                 articleQuantity : 1,                            
                 articlePrice : data.price   
             }
-            // Si le produit est déjà dans le panier => Message
-            if (basketContent.find(product => product.articleId == data._id) 
-                && (basketContent.find(product => product.articleColor == selectedColor.textContent))) {
+            // Si le produit est déjà dans le panier (ID + couleur) => Message
+            if (basketContent.find(product => (product.articleId == data._id) 
+                && (product.articleColor == selectedColor.textContent))) {
                 alert("Ce produit est déjà dans votre panier!!!");
             }
             // Sinon => on l'ajoute au panier

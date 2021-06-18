@@ -3,19 +3,19 @@ let params = (new URL(document.location)).searchParams;
 let id = params.get("id");
 
 // Pointage vers la section "basket"
-const basket = document.getElementById("basket");
+let basket = document.getElementById("basket");
 basket.classList.add("col-12");
 basket.classList.add("text-center");
 
 // Message concernant le détail du panier
-const message = document.createElement("p");
+let message = document.createElement("p");
 message.innerText = "Voici le détail de votre panier :";
 message.classList.add("basket-message");
 message.classList.add("col-12")
 basket.append(message);
 
 // Création d'une TABLE contenant la liste des produits + ajout à la section Basket
-const productList = document.createElement("table");
+let productList = document.createElement("table");
 productList.classList.add("col-12");
 productList.classList.add("table");
 basket.append(productList);
@@ -130,16 +130,12 @@ let products = localStorage.getItem("products");
 let listofProducts = JSON.parse(products);
 localStorage.setItem("products", JSON.stringify(productArray));
 
-// Création de la classe product pour stocker les attributs des produits
-class product {
-    constructor(articleId, articleImage, articleName, articleColor, articlePrice) {
-        this.articleId = articleId;
-        this.articleImage = articleImage;
-        this.articleName = articleName;
-        this.articleColor = articleColor;         
-        this.articleQuantity = 1;                           
-        this.articlePrice = articlePrice;                      
-    }
+
+// Fonction asynchrone pour calculer automatiquement la somme des prix du tableau
+async function calculateTotalOrder() {
+    let reducer = (accumulator, currentValue) => accumulator + currentValue;
+    let totalOrder = priceTable.reduce(reducer);
+    totalOrderPriceText.innerText = "Montant total de votre commande : " + totalOrder + " €";
 }
 
 // Message si panier vide
@@ -147,10 +143,8 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
     message.innerText = "Votre panier est vide";
 // Construction du Tableau pour chaque au panier
 } else {
-    // RECUPERATION DE TOUS LES ARTICLES stockés dans le Local Storage
+    // Récupération de tous les articles stockés dans le Local Storage
     listOfArticlesJSON.forEach(article => {
-        // Création d'un nouveau produit POUR CHAQUE ARTICLE du Local Storage
-        let newProduct = new product;
 
         // Stockage de l'Id des produits dans le Local Storage pour future requête POST
         productArray.push(article.articleId);
@@ -220,8 +214,8 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         lessQuantityButton.classList.add("btn-sm");
         quantityColumn.append(lessQuantityButton);
         let quantity = document.createElement("span");
-        quantity.id = "quantity";
         quantity.append(article.articleQuantity);
+        quantity.id = "quantity";
         quantityColumn.append(quantity);
         quantityColumn.classList.add("col-sm-3");
         quantityColumn.classList.add("px-1");
@@ -252,7 +246,10 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         totalPriceColumn.classList.add("border-bottom");
         totalPriceColumn.classList.add("border-dark");
         totalPriceColumn.classList.add("px-0");
-        totalPriceColumn.append(totalPriceColumnAmount + " €");
+        let totalArticlePrice = document.createElement("span");
+        totalArticlePrice.classList.add("total-article-price");
+        totalArticlePrice.innerText = totalPriceColumnAmount + " €";
+        totalPriceColumn.append(totalArticlePrice);
         ligneArticle.append(totalPriceColumn);
         priceTable.push(totalPriceColumnAmount);
         localStorage.setItem("tableauPrix", JSON.stringify(priceTable));
@@ -279,19 +276,29 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         // Fonctionnalité pour réduire la quantité au clic
         lessQuantityButton.addEventListener("click", function() {
             article.articleQuantity -= 1;
-            localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
             quantity.innerText= article.articleQuantity;
+            totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
+            totalArticlePrice.innerText = totalPriceColumnAmount + " €";
+            priceTable.push(-article.articlePrice/100);
+            localStorage.setItem("tableauPrix", JSON.stringify(priceTable));
+            localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
             // Si la quantité passe à 0, l'article est supprimé
             if ((article.articleQuantity === 0) || (quantity == 0)) {
                 deleteArticle();
             }
+            calculateTotalOrder();
         })
 
         // Fonctionnalité pour augmenter la quantité au clic
         addQuantityButton.addEventListener("click", function() {
             article.articleQuantity += 1;
-            localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
             quantity.innerText= article.articleQuantity;
+            totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
+            totalArticlePrice.innerText = totalPriceColumnAmount + " €";
+            priceTable.push(article.articlePrice/100);
+            localStorage.setItem("tableauPrix", JSON.stringify(priceTable));
+            localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
+            calculateTotalOrder();
         })
 
         // Fonction pour supprimer un article du Local Storage et du tableau, avec message d'information
@@ -310,18 +317,13 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
 
         // si quantité = 0 => supprime l'article
         let quantityControl = document.getElementById("quantity");
-        quantityControl.addEventListener ("change", function() {
+        quantity.addEventListener ("change", function() {
             if ((article.articleQuantity === 0) || (quantity == 0)) {
                 deleteArticle();
             }
         })
     })
 }
-
-// Calcul de la somme des prix du tableau
-const reducer = (accumulator, currentValue) => accumulator + currentValue;
-let totalOrder = priceTable.reduce(reducer);
-console.log(priceTable.reduce(reducer));
 
 // Création d'une ligne pour le total de la commande
 let totalOrderPriceText = document.createElement("p");
@@ -330,7 +332,9 @@ totalOrderPriceText.classList.add("col-md-12");
 totalOrderPriceText.style.fontWeight = 'bold';
 totalOrderPriceText.classList.add("text-info");
 basket.append(totalOrderPriceText);
-totalOrderPriceText.innerText = "Montant total de votre commande : " + totalOrder + " €";
+
+// Calcul automatique du prix total
+calculateTotalOrder();
 
 // Création des données de contact
 class contact {

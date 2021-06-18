@@ -3,11 +3,10 @@ const section = document.getElementById('all-teddies');
 
 //     Utilisation de l'API FETCH pour récupérer les données
 fetch("http://localhost:3000/api/teddies")
-
     // TEST DU SERVEUR    
     .then(function(res) {
         if (res.ok) {     
-            console.log("Connexion au serveur réussie");
+            // console.log("Connexion au serveur réussie");
             // Si réponse serveur ok, transforme les données en json
             return res.json(); 
         }
@@ -19,12 +18,12 @@ fetch("http://localhost:3000/api/teddies")
 
     // Promise pour les éléments reçus du server  
     .then(data => { 
-        console.log("Voici les données renvoyées par le serveur");
+        /* console.log("Voici les données renvoyées par le serveur");
         // Montre les données converties => Array(5) dans la console
-        console.log(data); 
+        console.log(data); */
 
-        //    INSERTION DES DONNEES DU SERVEUR DANS UNE BOUCLE POUR CHAQUE ELEMENT RECUS  
-        data.forEach(element => {
+        //    INSERTION DES DONNEES DE L'API DANS UNE BOUCLE POUR CHAQUE ELEMENT RECUS  
+        data.forEach(product => {
             // Création d'une variable article pour stocker chaque produit
             const article = document.createElement("article");
             // Création d'un élément article à l'intérieur de la section all-teddies
@@ -34,11 +33,11 @@ fetch("http://localhost:3000/api/teddies")
             // Création d'un objet en HTML : la carte et son contenu
             article.innerHTML = 
             `
-                <div class="card" id="cliquable" title="Voir la description du produit" onclick="document.location.href = 'product.html?id=${element._id}';">
-                    <img class="card-img-top text-center" src='${element.imageUrl}' alt="Photo de l'ours en peluche ${element.name}" title="Ours en peluche ${element.name}"/>
-                    <h2 class="col-12 text-center">${element.name}</h2>
-                    <p class="col-12 text-center"><strong>Coloris disponibles : </strong><br />${element.colors}<p>
-                    <p class="col-12 text-center">Prix : ${element.price / 100} €</p>
+                <div class="card" id="cliquable" title="Voir la description du produit" onclick="document.location.href = 'product.html?id=${product._id}';">
+                    <img class="card-img-top text-center" src='${product.imageUrl}' alt="Photo de l'ours en peluche ${product.name}" title="Ours en peluche ${product.name}"/>
+                    <h2 class="col-12 text-center">${product.name}</h2>
+                    <p class="col-12 text-center"><strong>Coloris disponibles : </strong><br />${product.colors}<p>
+                    <p class="col-12 text-center">Prix : ${product.price / 100} €</p>
                     <button type="submit" class="btn btn-info mx-auto my-2" href="">Voir le produit en détail</button>
                 </div>
             `
