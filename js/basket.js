@@ -402,11 +402,22 @@ let address = document.getElementById("address");
 let city = document.getElementById("city");
 let email = document.getElementById("email");
  
-email.addEventListener("change",function() {
+firstName.addEventListener("change",function() {
     newContact.firstName = firstName.value;
+})
+lastName.addEventListener("change",function() {
     newContact.lastName = lastName.value;
+})
+address.addEventListener("change",function() {
     newContact.address = address.value;
+})
+city.addEventListener("change",function() {
     newContact.city = city.value;
+})   
+email.addEventListener("change",function() {
     newContact.email = email.value;
+})
+let orderButton = document.getElementById("btn-order");
+orderButton.addEventListener("click", function() {
     localStorage.setItem("contact", JSON.stringify(newContact));
 })
