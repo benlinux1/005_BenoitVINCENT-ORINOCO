@@ -121,8 +121,8 @@ localStorage.setItem("prices", totalPriceTable);
 let productIdArray = [];
 localStorage.setItem("productsId", JSON.stringify(productIdArray));
 
-// Fonction asynchrone pour calculer automatiquement la somme des prix du tableau
-async function calculateTotalOrder() {
+// Fonction permettant de calculer automatiquement la somme des prix du tableau
+function calculateTotalOrder() {
     let reducer = (accumulator, currentValue) => accumulator + currentValue;
     let totalOrder = priceTable.reduce(reducer);
     totalOrderPriceText.innerText = "Montant total de votre commande : " + totalOrder + " €";
@@ -135,6 +135,37 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
 } else {
     // Pour chaque article stocké dans le Local Storage
     listOfArticlesJSON.forEach(article => {
+
+        // Fonction permettant de réduire la quantité d'un article
+        function reduceQuantity() {
+            article.articleQuantity -= 1;
+            quantity.innerText= article.articleQuantity;
+            totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
+            totalArticlePrice.innerText = totalPriceColumnAmount + " €";
+            priceTable.push(-article.articlePrice/100);
+            localStorage.setItem("prices", JSON.stringify(priceTable));
+            localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
+        }
+
+        // Fonction permettant d'incrémenter la quantité d'un article
+        function addQuantity() {
+            article.articleQuantity += 1;
+            quantity.innerText= article.articleQuantity;
+            totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
+            totalArticlePrice.innerText = totalPriceColumnAmount + " €";
+            priceTable.push(article.articlePrice/100);
+            localStorage.setItem("prices", JSON.stringify(priceTable));
+            localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
+        }
+
+        // Fonction permettant de supprimer un article (page et Local Storage)
+        function deleteArticle() {
+            let index = listOfArticlesJSON.indexOf(article);
+            listOfArticlesJSON.splice(index, 1);
+            localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
+            alert("Vous venez de supprimer l'ours " + article.articleName + " (coloris " + article.articleColor + ") du panier");
+            location.reload();
+        }
 
         // Stockage de l'Id des produits dans le Local Storage pour future requête POST
         productIdArray.push(article.articleId);
@@ -177,6 +208,7 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         colorColumn.classList.add("border-top");
         colorColumn.classList.add("border-bottom");
         colorColumn.classList.add("border-dark");
+        colorColumn.classList.add("px-0");
         ligneArticle.append(colorColumn);
 
         // Insertion du prix de l'article dans un TD
@@ -263,15 +295,9 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         deleteButtonContainer.append(deleteButton);
         ligneArticle.appendChild(deleteButtonContainer);
 
-        // Fonctionnalité pour réduire la quantité au clic
+        // Fonctionnalité pour réduire la quantité au clic sur Bouton -
         lessQuantityButton.addEventListener("click", function() {
-            article.articleQuantity -= 1;
-            quantity.innerText= article.articleQuantity;
-            totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
-            totalArticlePrice.innerText = totalPriceColumnAmount + " €";
-            priceTable.push(-article.articlePrice/100);
-            localStorage.setItem("prices", JSON.stringify(priceTable));
-            localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
+            reduceQuantity();
             // Si la quantité passe à 0, l'article est supprimé
             if ((article.articleQuantity === 0) || (quantity == 0)) {
                 deleteArticle();
@@ -279,38 +305,15 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
             calculateTotalOrder();
         })
 
-        // Fonctionnalité pour augmenter la quantité au clic
+        // Fonctionnalité pour augmenter la quantité au clic sur Bouton +
         addQuantityButton.addEventListener("click", function() {
-            article.articleQuantity += 1;
-            quantity.innerText= article.articleQuantity;
-            totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
-            totalArticlePrice.innerText = totalPriceColumnAmount + " €";
-            priceTable.push(article.articlePrice/100);
-            localStorage.setItem("prices", JSON.stringify(priceTable));
-            localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
+            addQuantity();
             calculateTotalOrder();
         })
 
-        // Fonction pour supprimer un article du Local Storage et du tableau, avec message d'information
-        function deleteArticle() {
-            let index = listOfArticlesJSON.indexOf(article);
-            listOfArticlesJSON.splice(index, 1);
-            localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
-            alert("Vous venez de supprimer l'ours " + article.articleName + " (coloris " + article.articleColor + ") du panier");
-            location.reload();
-        }
-
-        // Fonctionnalité pour supprimer l'objet au clic sur bouton "supprimer"
+        // Fonctionnalité pour supprimer l'objet au clic sur Bouton "supprimer"
         deleteButton.addEventListener("click", function() {
             deleteArticle();
-        })
-
-        // si quantité = 0 => supprime l'article
-        let quantityControl = document.getElementById("quantity");
-        quantity.addEventListener ("change", function() {
-            if ((article.articleQuantity === 0) || (quantity == 0)) {
-                deleteArticle();
-            }
         })
     })
 }
