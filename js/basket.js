@@ -140,7 +140,6 @@ function deleteArticle(article) {
 // Fonction permettant de réduire la quantité d'un article
 function reduceQuantity(product) {
     product.articleQuantity -= 1;
-    quantity.innerText= product.articleQuantity;
     priceTable.push(-product.articlePrice/100);
     localStorage.setItem("prices", JSON.stringify(priceTable));
     localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
@@ -149,7 +148,6 @@ function reduceQuantity(product) {
 // Fonction permettant d'incrémenter la quantité d'un article
 function addQuantity(product) {
     product.articleQuantity += 1;
-    quantity.innerText= product.articleQuantity;
     priceTable.push(product.articlePrice/100);
     localStorage.setItem("prices", JSON.stringify(priceTable));
     localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
@@ -232,8 +230,8 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         lessQuantityButton.classList.add("btn-sm");
         quantityColumn.append(lessQuantityButton);
         let quantity = document.createElement("span");
-        quantity.append(article.articleQuantity);
-        quantity.id = "quantity";
+        quantity.innerText = article.articleQuantity;
+        quantity.classList.add("testQuantity");
         quantityColumn.append(quantity);
         quantityColumn.classList.add("col-sm-3");
         quantityColumn.classList.add("px-1");
@@ -295,11 +293,12 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         lessQuantityButton.addEventListener("click", function() {
             reduceQuantity(article);
             // Si la quantité passe à 0, l'article est supprimé
-            if ((article.articleQuantity === 0) || (quantity == 0)) {
+            if ((article.articleQuantity === 0)) {
                 deleteArticle(article);
             }
             totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
             totalArticlePrice.innerText = totalPriceColumnAmount + " €";
+            quantity.innerText = article.articleQuantity;
             calculateTotalOrder(priceTable);
         })
 
@@ -308,6 +307,7 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
             addQuantity(article);
             totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
             totalArticlePrice.innerText = totalPriceColumnAmount + " €";
+            quantity.innerText = article.articleQuantity;
             calculateTotalOrder(priceTable);
         })
 

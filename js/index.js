@@ -1,7 +1,7 @@
 // Création d'une variable pointant vers la section de page "all-teddies" 
 let section = document.getElementById('all-teddies');
 
-//     Utilisation de l'API FETCH pour récupérer les données
+//     Utilisation de l'API avec FETCH pour récupérer les données
 fetch("http://localhost:3000/api/teddies")
     // TEST DU SERVEUR    
     .then(function(res) {
