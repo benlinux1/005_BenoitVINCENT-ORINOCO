@@ -122,10 +122,37 @@ let productIdArray = [];
 localStorage.setItem("productsId", JSON.stringify(productIdArray));
 
 // Fonction permettant de calculer automatiquement la somme des prix du tableau
-function calculateTotalOrder() {
+function calculateTotalOrder(listToCalculate) {
     let reducer = (accumulator, currentValue) => accumulator + currentValue;
-    let totalOrder = priceTable.reduce(reducer);
+    let totalOrder = listToCalculate.reduce(reducer);
     totalOrderPriceText.innerText = "Montant total de votre commande : " + totalOrder + " €";
+}
+
+// Fonction permettant de supprimer un article (page et Local Storage)
+function deleteArticle(article) {
+    let index = listOfArticlesJSON.indexOf(article);
+    listOfArticlesJSON.splice(index, 1);
+    localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
+    alert("Vous venez de supprimer l'ours " + article.articleName + " (coloris " + article.articleColor + ") du panier");
+    location.reload();
+}
+
+// Fonction permettant de réduire la quantité d'un article
+function reduceQuantity(product) {
+    product.articleQuantity -= 1;
+    quantity.innerText= product.articleQuantity;
+    priceTable.push(-product.articlePrice/100);
+    localStorage.setItem("prices", JSON.stringify(priceTable));
+    localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
+}
+
+// Fonction permettant d'incrémenter la quantité d'un article
+function addQuantity(product) {
+    product.articleQuantity += 1;
+    quantity.innerText= product.articleQuantity;
+    priceTable.push(product.articlePrice/100);
+    localStorage.setItem("prices", JSON.stringify(priceTable));
+    localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
 }
 
 // Message si panier vide
@@ -135,37 +162,6 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
 } else {
     // Pour chaque article stocké dans le Local Storage
     listOfArticlesJSON.forEach(article => {
-
-        // Fonction permettant de réduire la quantité d'un article
-        function reduceQuantity() {
-            article.articleQuantity -= 1;
-            quantity.innerText= article.articleQuantity;
-            totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
-            totalArticlePrice.innerText = totalPriceColumnAmount + " €";
-            priceTable.push(-article.articlePrice/100);
-            localStorage.setItem("prices", JSON.stringify(priceTable));
-            localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
-        }
-
-        // Fonction permettant d'incrémenter la quantité d'un article
-        function addQuantity() {
-            article.articleQuantity += 1;
-            quantity.innerText= article.articleQuantity;
-            totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
-            totalArticlePrice.innerText = totalPriceColumnAmount + " €";
-            priceTable.push(article.articlePrice/100);
-            localStorage.setItem("prices", JSON.stringify(priceTable));
-            localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
-        }
-
-        // Fonction permettant de supprimer un article (page et Local Storage)
-        function deleteArticle() {
-            let index = listOfArticlesJSON.indexOf(article);
-            listOfArticlesJSON.splice(index, 1);
-            localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
-            alert("Vous venez de supprimer l'ours " + article.articleName + " (coloris " + article.articleColor + ") du panier");
-            location.reload();
-        }
 
         // Stockage de l'Id des produits dans le Local Storage pour future requête POST
         productIdArray.push(article.articleId);
@@ -297,23 +293,27 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
 
         // Fonctionnalité pour réduire la quantité au clic sur Bouton -
         lessQuantityButton.addEventListener("click", function() {
-            reduceQuantity();
+            reduceQuantity(article);
             // Si la quantité passe à 0, l'article est supprimé
             if ((article.articleQuantity === 0) || (quantity == 0)) {
-                deleteArticle();
+                deleteArticle(article);
             }
-            calculateTotalOrder();
+            totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
+            totalArticlePrice.innerText = totalPriceColumnAmount + " €";
+            calculateTotalOrder(priceTable);
         })
 
         // Fonctionnalité pour augmenter la quantité au clic sur Bouton +
         addQuantityButton.addEventListener("click", function() {
-            addQuantity();
-            calculateTotalOrder();
+            addQuantity(article);
+            totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
+            totalArticlePrice.innerText = totalPriceColumnAmount + " €";
+            calculateTotalOrder(priceTable);
         })
 
         // Fonctionnalité pour supprimer l'objet au clic sur Bouton "supprimer"
         deleteButton.addEventListener("click", function() {
-            deleteArticle();
+            deleteArticle(article);
         })
     })
 }
@@ -327,7 +327,7 @@ totalOrderPriceText.classList.add("text-info");
 basket.append(totalOrderPriceText);
 
 // Calcul automatique du prix total
-calculateTotalOrder();
+calculateTotalOrder(priceTable);
 
 // Création des données de contact
 class contact {
@@ -392,7 +392,7 @@ fieldSet. innerHTML =
 form.append(fieldSet);
 
 // PERSONNALISATION DU BOUTON "Valider la commande"     
-const button = document.getElementById("btn-order"); 
+let button = document.getElementById("btn-order"); 
 button.classList.add("btn");
 button.classList.add("btn-info");
 button.classList.add("mx-auto");

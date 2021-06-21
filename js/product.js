@@ -2,7 +2,7 @@
 let params = (new URL(document.location)).searchParams;
 let id = params.get("id");
 // Création d'une variable pointant vers la section de page "Product"
-const productCard = document.getElementById('product-card');
+let productCard = document.getElementById('product-card');
 
 // Création de la CLASSE PRODUIT
 class product {
@@ -16,6 +16,21 @@ class product {
     }
 }
 let newProduct = new product;
+
+// Identification du panier
+let basket = localStorage.getItem("basket");
+let basketContent = JSON.parse(basket);
+// Si le panier est vide, on l'initialise (sérialisation d'un tableau vide dans le Local Storage)
+if (basketContent === null) {
+    basketContent = [];
+    localStorage.setItem("basket", JSON.stringify(basketContent));
+}
+
+// Fonction p ajouter un produit au panier
+function addToBasket(product) { 
+    basketContent.push(product);
+    localStorage.setItem("basket", JSON.stringify(basketContent));
+}
 
 // Utilisation de l'API avec FETCH pour récupérer les données sur l'ID en question
 fetch(`http://localhost:3000/api/teddies/${id}`)
@@ -38,7 +53,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
         /* Montre les données converties => l'objet et ses attributs dans la console
         console.log(data); */
         // Création d'une constante "article" pour stocker le produit
-        const article = document.createElement("article");
+        let article = document.createElement("article");
         // Création de l'élément article à l'intérieur de la section "product"
         document.createElement("article");
         // Ajout de 2 classes bootstrap à l'article
@@ -60,7 +75,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
         productCard.append(article);
 
         // PERSONNALISATION DU BOUTON "Ajouter au Panier"     
-        const button = document.getElementById("btn-basket"); 
+        let button = document.getElementById("btn-basket"); 
         button.classList.add("btn");
         button.classList.add("btn-info");
         button.classList.add("mx-auto");
@@ -89,23 +104,6 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
             selectedColor.innerText = colorChoice.value;
         })
 
-        // Identification du panier
-        let basket = localStorage.getItem("basket");
-        let basketContent = JSON.parse(basket);
-
-        // Si le panier est vide, on l'initialise (sérialisation d'un tableau vide dans le Local Storage)
-        if (basketContent === null) {
-            basketContent = [];
-            localStorage.setItem("basket", JSON.stringify(basketContent));
-        };
-
-        // Fonction p ajouter un produit au panier
-            function addToBasket() { 
-            basketContent.push(newProduct);
-            localStorage.setItem("basket", JSON.stringify(basketContent));
-            alert("Vous venez d'ajouter " + data.name + " (coloris " + colorChoice.value + ") au panier");
-        }
-
         // Ecouteur sur le bouton au clic
         button.addEventListener("click", function() {
             // Configuration des attributs d'un nouveau produit
@@ -120,11 +118,12 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
             // Si le produit est déjà dans le panier (ID + couleur) => Message
             if (basketContent.find(product => (product.articleId == data._id) 
                 && (product.articleColor == selectedColor.textContent))) {
-                alert("Ce produit est déjà dans votre panier!!!");
+                alert("Ce produit est déjà dans votre panier !");
             }
             // Sinon => on l'ajoute au panier
             else {
-                addToBasket();
+                addToBasket(newProduct);
+                alert("Vous venez d'ajouter " + data.name + " (coloris " + colorChoice.value + ") au panier");
             }
         })
     })

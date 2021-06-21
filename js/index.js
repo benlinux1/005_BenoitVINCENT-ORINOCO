@@ -1,12 +1,11 @@
 // Création d'une variable pointant vers la section de page "all-teddies" 
-const section = document.getElementById('all-teddies');
+let section = document.getElementById('all-teddies');
 
 //     Utilisation de l'API FETCH pour récupérer les données
 fetch("http://localhost:3000/api/teddies")
     // TEST DU SERVEUR    
     .then(function(res) {
         if (res.ok) {     
-            // console.log("Connexion au serveur réussie");
             // Si réponse serveur ok, transforme les données en json
             return res.json(); 
         }
@@ -24,7 +23,7 @@ fetch("http://localhost:3000/api/teddies")
         // INSERTION DES DONNEES DE L'API DANS UNE BOUCLE POUR CHAQUE ELEMENT RECUS  
         data.forEach(product => {
             // Création d'une variable article pour stocker chaque produit
-            const article = document.createElement("article");
+            let article = document.createElement("article");
             // Création d'un élément article à l'intérieur de la section all-teddies
             document.createElement("article");
             // Ajoute la class col-md-6 à chaque card pour affichage 2*2 en MD et +

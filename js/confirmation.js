@@ -30,7 +30,7 @@ let listOfArticles = localStorage.getItem("basket");
 let listOfArticlesJSON = JSON.parse(listOfArticles);
 
 // Création d'une TABLE contenant la liste des produits + ajout à la section Basket
-const productList = document.createElement("table");
+let productList = document.createElement("table");
 productList.classList.add("col-12");
 productList.classList.add("table");
 recap.appendChild(productList);
