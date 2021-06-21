@@ -1,5 +1,6 @@
 // Identification de la section principale
 let section = document.getElementById("message");
+section.classList.add("mx-3");
 
 // Identification des données de contact
 let contactData = localStorage.getItem("contact");
@@ -65,6 +66,7 @@ listOfArticlesJSON.forEach(article => {
     nameColumn.classList.add("border-top");
     nameColumn.classList.add("border-bottom");
     nameColumn.classList.add("border-dark");
+    nameColumn.classList.add("px-0");
     ligneArticle.append(nameColumn);
     
     // Insertion de la couleur de l'article dans un TD
@@ -75,6 +77,7 @@ listOfArticlesJSON.forEach(article => {
     colorColumn.classList.add("border-top");
     colorColumn.classList.add("border-bottom");
     colorColumn.classList.add("border-dark");
+    colorColumn.classList.add("px-0");
     ligneArticle.append(colorColumn);
 
     // Insertion du prix de l'article dans un TD
@@ -95,6 +98,7 @@ listOfArticlesJSON.forEach(article => {
     quantityColumn.classList.add("border-top");
     quantityColumn.classList.add("border-bottom");
     quantityColumn.classList.add("border-dark");
+    quantityColumn.classList.add("px-0");
     ligneArticle.append(quantityColumn);
 
     // Insertion du prix total (quantité x prix unitaire) dans un TD
