@@ -7,23 +7,20 @@ basket.classList.add("text-center");
 let message = document.createElement("p");
 message.innerText = "Voici le détail de votre panier :";
 message.classList.add("basket-message");
-message.classList.add("col-12")
 basket.append(message);
 
 // Création d'une TABLE contenant la liste des produits + ajout à la section Basket
 let productList = document.createElement("table");
-productList.classList.add("col-12");
 productList.classList.add("table");
-basket.append(productList);
+basket.appendChild(productList);
 
 // Création du Thead
 let thead = document.createElement("thead");
-productList.append(thead);
+productList.appendChild(thead);
 
 // Création d'un "tr" contenant la description du produit
 let productDescription = document.createElement("tr");
-productDescription.classList.add("col-12");
-thead.append(productDescription);
+thead.appendChild(productDescription);
 
 // Création d'un "td" IMAGE
 let productImage = document.createElement("td");
@@ -48,7 +45,7 @@ productName.classList.add("border-dark");
 productName.classList.add("text-info");
 productName.style.fontWeight = 'bold';
 productName.innerText = "Modèle";
-productDescription.append(productName);
+productDescription.appendChild(productName);
 
 // Création d'un "td" COULEUR
 let productColor = document.createElement("td");
@@ -65,7 +62,7 @@ productDescription.append(productColor);
 // Création d'un "td" PRIX UNITAIRE
 let productPrice = document.createElement("td");
 document.createElement("productPrice");
-productPrice.classList.add("col-2");
+productPrice.classList.add("col-1");
 productPrice.classList.add("not-for-mobile");
 productPrice.classList.add("border-top");
 productPrice.classList.add("border-bottom");
@@ -94,11 +91,21 @@ document.createElement("totalPrice");
 totalPrice.classList.add("col-2");
 totalPrice.classList.add("border-top");
 totalPrice.classList.add("border-bottom");
+totalPrice.classList.add("border-end");
 totalPrice.classList.add("border-dark");
 totalPrice.classList.add("text-info");
 totalPrice.style.fontWeight = 'bold';
 totalPrice.innerText = "Prix total";
 productDescription.appendChild(totalPrice);
+
+// Création d'un "td" SUPPRIMER
+let deleteTd = document.createElement("td");
+document.createElement("deleteTd");
+deleteTd.classList.add("col-1");
+deleteTd.classList.add("not-for-mobile");
+deleteTd.classList.add("border-top");
+deleteTd.classList.add("border-dark");
+productDescription.appendChild(deleteTd);
 
 // Création du Tbody
 let tbody = document.createElement("tbody");
@@ -177,7 +184,7 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         imageColumn.classList.add("border-top");
         imageColumn.classList.add("border-bottom");
         imageColumn.classList.add("border-dark");
-        ligneArticle.append(imageColumn);
+        ligneArticle.appendChild(imageColumn);
 
         // Insertion du nom de l'article dans un TD
         let nameColumn = document.createElement("td");
@@ -205,7 +212,7 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         let priceColumn = document.createElement("td");
         document.createElement("priceColumn");
         priceColumn.append(article.articlePrice/100 + " €");
-        priceColumn.classList.add("col-2");
+        priceColumn.classList.add("col-1");
         priceColumn.classList.add("border-top");
         priceColumn.classList.add("border-bottom");
         priceColumn.classList.add("border-dark");
@@ -277,7 +284,7 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         let deleteButton = document.createElement("button");
         document.createElement("deleteButtonContainer");
         document.createElement("deleteButton");
-        deleteButtonContainer.classList.add("col-2");
+        deleteButtonContainer.classList.add("col-1");
         deleteButtonContainer.classList.add("not-for-mobile");
         deleteButtonContainer.classList.add("border");
         deleteButtonContainer.classList.add("border-start-1");

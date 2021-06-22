@@ -1,5 +1,5 @@
 #navbarContent {
-    justify-content: end;
+    justify-content: flex-end;
 }
     
 body > h1 {
@@ -47,7 +47,6 @@ margin-top: 10px;
         margin: auto;
         height: 300px;
         object-fit: cover;
-
     }
 }
 
@@ -65,7 +64,6 @@ margin-top: 10px;
         height: 400px;
         object-fit: cover;
     }
-    
 }
 
 #product {
@@ -73,19 +71,24 @@ margin-top: 10px;
     margin: auto;
 }
 
-.table {
-    border: 1px solid black;
-}
-
-#basket td, #message td {
+#basket td, #message td, #basket th {
     vertical-align: middle;
     text-align: center;
 }
 
+#basket .table {
+    table-layout: fixed;
+}
+
+#basket tr {
+    border: 1px solid black;
+}
+
 td > img {
-    width: 100px;
+    max-width: 100px;
+    width: 70%;
 }
 
 input:invalid {
     border: red solid 3px;
-  }
+}
