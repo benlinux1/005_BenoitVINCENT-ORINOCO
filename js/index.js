@@ -27,7 +27,7 @@ fetch("http://localhost:3000/api/teddies")
             // Création d'un élément article à l'intérieur de la section all-teddies
             document.createElement("article");
             // Ajoute la class col-md-6 à chaque card pour affichage 2*2 en MD et +
-            article.classList.add("col-md-6");
+            article.classList.add("col-sm-6");
             // Création d'un objet en HTML : la carte et son contenu
             article.innerHTML = 
             `
