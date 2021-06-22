@@ -119,7 +119,7 @@ listOfArticlesJSON.forEach(article => {
 // Calcul de la somme des prix du tableau
 let priceTable = JSON.parse(localStorage.getItem("prices"));
 let totalPriceTable = JSON.stringify(priceTable);
-const reducer = (accumulator, currentValue) => accumulator + currentValue;
+let reducer = (accumulator, currentValue) => accumulator + currentValue;
 let totalOrder = priceTable.reduce(reducer);
 
 // Création d'une ligne pour le total de la commande

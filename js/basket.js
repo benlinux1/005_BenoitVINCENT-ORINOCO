@@ -13,35 +13,35 @@ function customizeBorder(element) {
 }
 
 // Fonction permettant de calculer automatiquement la somme des prix du tableau
-function calculateTotalOrder(listToCalculate) {
+function calculateTotalOrder(listToCalculate, destination) {
     let reducer = (accumulator, currentValue) => accumulator + currentValue;
-    let totalOrder = listToCalculate.reduce(reducer);
-    totalOrderPriceText.innerText = "Montant total de votre commande : " + totalOrder + " €";
+    total = listToCalculate.reduce(reducer);
+    destination.innerText = "Montant total de votre commande : " + total + " €";
 }
 
 // Fonction permettant de supprimer un article (page et Local Storage)
-function deleteArticle(article) {
-    let index = listOfArticlesJSON.indexOf(article);
-    listOfArticlesJSON.splice(index, 1);
-    localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
+function deleteArticle(article, container, index) {
+    index = container.indexOf(article);
+    container.splice(index, 1);
+    localStorage.setItem("basket", JSON.stringify(container));
     alert("Vous venez de supprimer l'ours " + article.articleName + " (coloris " + article.articleColor + ") du panier");
     location.reload();
 }
 
 // Fonction permettant de réduire la quantité d'un article
-function reduceQuantity(product) {
+function reduceQuantity(product, array1, array2) {
     product.articleQuantity -= 1;
-    priceTable.push(-product.articlePrice/100);
-    localStorage.setItem("prices", JSON.stringify(priceTable));
-    localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
+    array1.push(-product.articlePrice/100);
+    localStorage.setItem("prices", JSON.stringify(array1));
+    localStorage.setItem("basket", JSON.stringify(array2));
 }
 
 // Fonction permettant d'incrémenter la quantité d'un article
-function addQuantity(product) {
+function addQuantity(product, array1, array2) {
     product.articleQuantity += 1;
-    priceTable.push(product.articlePrice/100);
-    localStorage.setItem("prices", JSON.stringify(priceTable));
-    localStorage.setItem("basket", JSON.stringify(listOfArticlesJSON));
+    array1.push(product.articlePrice/100);
+    localStorage.setItem("prices", JSON.stringify(array1));
+    localStorage.setItem("basket", JSON.stringify(array2));
 }
 
 // Pointage vers la section "basket"
@@ -280,29 +280,29 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
 
         // Fonctionnalité pour réduire la quantité au clic sur Bouton -
         lessQuantityButton.addEventListener("click", function() {
-            reduceQuantity(article);
+            reduceQuantity(article, priceTable, listOfArticlesJSON);
             // Si la quantité passe à 0, l'article est supprimé
             if ((article.articleQuantity === 0)) {
-                deleteArticle(article);
+                deleteArticle(article, listOfArticlesJSON);
             }
             totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
             totalArticlePrice.innerText = totalPriceColumnAmount + " €";
             quantity.innerText = article.articleQuantity;
-            calculateTotalOrder(priceTable);
+            calculateTotalOrder(priceTable, totalOrderPriceText);
         })
 
         // Fonctionnalité pour augmenter la quantité au clic sur Bouton +
         addQuantityButton.addEventListener("click", function() {
-            addQuantity(article);
+            addQuantity(article, priceTable, listOfArticlesJSON);
             totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
             totalArticlePrice.innerText = totalPriceColumnAmount + " €";
             quantity.innerText = article.articleQuantity;
-            calculateTotalOrder(priceTable);
+            calculateTotalOrder(priceTable, totalOrderPriceText);
         })
 
         // Fonctionnalité pour supprimer l'objet au clic sur Bouton "supprimer"
         deleteButton.addEventListener("click", function() {
-            deleteArticle(article);
+            deleteArticle(article, listOfArticlesJSON);
         })
     })
 }
@@ -316,7 +316,7 @@ totalOrderPriceText.classList.add("text-info");
 basket.append(totalOrderPriceText);
 
 // Calcul automatique du prix total
-calculateTotalOrder(priceTable);
+calculateTotalOrder(priceTable, totalOrderPriceText);
 
 // Création des données de contact
 class contact {
