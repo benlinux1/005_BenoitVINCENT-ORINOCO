@@ -1,6 +1,7 @@
 // Récupérer l'id du produit cliqué dans l'Index grâce à Search Params
 let params = (new URL(document.location)).searchParams;
 let id = params.get("id");
+
 // Création d'une variable pointant vers la section de page "Product"
 let productCard = document.getElementById('product-card');
 

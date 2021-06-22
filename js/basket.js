@@ -1,7 +1,3 @@
-// Récupérer l'id du produit cliqué dans l'Index grâce à Search Params
-let params = (new URL(document.location)).searchParams;
-let id = params.get("id");
-
 // Pointage vers la section "basket"
 let basket = document.getElementById("basket");
 basket.classList.add("col-12");
@@ -223,6 +219,9 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         let lessQuantityButton = document.createElement("button");
         document.createElement("lessQuantityButton");
         lessQuantityButton.innerText = "-";
+        lessQuantityButton.style.width = "24px";
+        lessQuantityButton.style.height = "24px";
+        lessQuantityButton.classList.add("p-0");
         lessQuantityButton.classList.add("mr-2");
         lessQuantityButton.classList.add("btn");
         lessQuantityButton.classList.add("btn-info");
@@ -245,6 +244,9 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         let addQuantityButton = document.createElement("button");
         document.createElement("addQuantityButton");
         addQuantityButton.innerText = "+";
+        addQuantityButton.style.width = "24px";
+        addQuantityButton.style.height = "24px";
+        addQuantityButton.classList.add("p-0");
         addQuantityButton.classList.add("ml-2");
         addQuantityButton.classList.add("btn");
         addQuantityButton.classList.add("btn-info");
