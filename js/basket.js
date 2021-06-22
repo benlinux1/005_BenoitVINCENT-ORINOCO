@@ -22,6 +22,14 @@ productList.appendChild(thead);
 let productDescription = document.createElement("tr");
 thead.appendChild(productDescription);
 
+function customizeTable(element) {
+    element.classList.add("border-top");
+    element.classList.add("border-bottom");
+    element.classList.add("border-dark");
+    element.classList.add("text-info");
+    element.style.fontWeight = 'bold';
+}
+
 // Création d'un "td" IMAGE
 let productImage = document.createElement("td");
 document.createElement("productImage");
@@ -50,14 +58,15 @@ productDescription.appendChild(productName);
 // Création d'un "td" COULEUR
 let productColor = document.createElement("td");
 document.createElement("productColor");
-productColor.classList.add("col-1");
+productColor.classList.add("col-2");
+productColor.classList.add("px-0");
 productColor.classList.add("border-top");
 productColor.classList.add("border-bottom");
 productColor.classList.add("border-dark");
 productColor.classList.add("text-info");
 productColor.style.fontWeight = 'bold';
 productColor.innerText = "Couleur";
-productDescription.append(productColor);
+productDescription.appendChild(productColor);
 
 // Création d'un "td" PRIX UNITAIRE
 let productPrice = document.createElement("td");
@@ -201,7 +210,7 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         let colorColumn = document.createElement("td");
         document.createElement("colorColumn");
         colorColumn.append(article.articleColor);
-        colorColumn.classList.add("col-xs-1");
+        colorColumn.classList.add("col-2");
         colorColumn.classList.add("border-top");
         colorColumn.classList.add("border-bottom");
         colorColumn.classList.add("border-dark");
@@ -212,7 +221,7 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         let priceColumn = document.createElement("td");
         document.createElement("priceColumn");
         priceColumn.append(article.articlePrice/100 + " €");
-        priceColumn.classList.add("col-1");
+        priceColumn.classList.add("col-xs-1");
         priceColumn.classList.add("border-top");
         priceColumn.classList.add("border-bottom");
         priceColumn.classList.add("border-dark");
@@ -226,8 +235,8 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         let lessQuantityButton = document.createElement("button");
         document.createElement("lessQuantityButton");
         lessQuantityButton.innerText = "-";
-        lessQuantityButton.style.width = "24px";
-        lessQuantityButton.style.height = "24px";
+        lessQuantityButton.style.width = "22px";
+        lessQuantityButton.style.height = "22px";
         lessQuantityButton.classList.add("p-0");
         lessQuantityButton.classList.add("mr-2");
         lessQuantityButton.classList.add("btn");
@@ -239,8 +248,8 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         quantity.innerText = article.articleQuantity;
         quantity.classList.add("testQuantity");
         quantityColumn.append(quantity);
-        quantityColumn.classList.add("col-sm-3");
-        quantityColumn.classList.add("px-1");
+        quantityColumn.classList.add("col-xs-3");
+        quantityColumn.classList.add("px-0");
         quantityColumn.classList.add("border-top");
         quantityColumn.classList.add("border-bottom");
         quantityColumn.classList.add("border-dark");
@@ -251,8 +260,8 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
         let addQuantityButton = document.createElement("button");
         document.createElement("addQuantityButton");
         addQuantityButton.innerText = "+";
-        addQuantityButton.style.width = "24px";
-        addQuantityButton.style.height = "24px";
+        addQuantityButton.style.width = "22px";
+        addQuantityButton.style.height = "22px";
         addQuantityButton.classList.add("p-0");
         addQuantityButton.classList.add("ml-2");
         addQuantityButton.classList.add("btn");

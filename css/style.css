@@ -35,10 +35,10 @@ margin-top: 10px;
     }
 
     #basket img {
-        width: 80px;
+        width: 60px;
     }
     .total-price {
-        width: 70px;
+        width: 40px;
     }
 }
 
@@ -74,6 +74,8 @@ margin-top: 10px;
 #basket td, #message td, #basket th {
     vertical-align: middle;
     text-align: center;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
 #basket .table {
