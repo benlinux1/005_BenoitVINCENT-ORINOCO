@@ -13,10 +13,10 @@ function customizeBorder(element) {
 }
 
 // Fonction permettant de calculer automatiquement la somme des prix du tableau
-function calculateTotalOrder(listToCalculate, destination) {
+function calculateTotalOrder(listToCalculate, total) {
     let reducer = (accumulator, currentValue) => accumulator + currentValue;
-    let total = listToCalculate.reduce(reducer);
-    destination.innerText = "Montant total de votre commande : " + total + " €";
+    total = listToCalculate.reduce(reducer);
+    return "Le montant total de votre commande est de " + total + " €";
 }
 
 // Fonction permettant de supprimer un article (page et Local Storage)
@@ -26,6 +26,7 @@ function deleteArticle(article, container) {
     localStorage.setItem("basket", JSON.stringify(container));
     alert("Vous venez de supprimer l'ours " + article.articleName + " (coloris " + article.articleColor + ") du panier");
     location.reload();
+    return container;
 }
 
 // Fonction permettant de réduire la quantité d'un article
@@ -34,7 +35,7 @@ function reduceQuantity(product, quantityArray, priceArray) {
     priceArray.push(-product.articlePrice/100);
     localStorage.setItem("prices", JSON.stringify(priceArray));
     localStorage.setItem("basket", JSON.stringify(quantityArray));
-    return product.articleQuantity;
+    return product;
 }
 
 // Fonction permettant d'incrémenter la quantité d'un article
@@ -43,13 +44,7 @@ function addQuantity(product, quantityArray, priceArray) {
     priceArray.push(product.articlePrice/100);
     localStorage.setItem("prices", JSON.stringify(priceArray));
     localStorage.setItem("basket", JSON.stringify(quantityArray));
-    return product.articleQuantity;
-}
-
-// Fonction permettant de mettre à jour le prix total d'un article
-function updateArticlePrice (product) {
-    let price = product.articleQuantity * product.articlePrice/100;
-    return price;
+    return product;
 }
 
 // Pointage vers la section "basket"
@@ -288,24 +283,24 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
 
         // Fonctionnalité pour réduire la quantité au clic sur Bouton -
         lessQuantityButton.addEventListener("click", function() {
-            // Mise à jour de la quantité avec le résultat de reduceQuantity
-            quantity.innerText = reduceQuantity(article, listOfArticlesJSON, priceTable);
-            // Mise à jour du prix total de l'article avec le résultat de updateArticlePrice
-            totalArticlePrice.innerText = updateArticlePrice(article) + " €";
+            // Mise à jour de la quantité avec le résultat de reduceQuantity, puis du prix total
+            article = reduceQuantity(article, listOfArticlesJSON, priceTable);
+            quantity.innerText = article.articleQuantity;
+            totalArticlePrice.innerText = article.articleQuantity * article.articlePrice/100 + " €";
             // Si la quantité passe à 0, l'article est supprimé
             if ((article.articleQuantity === 0)) {
                 deleteArticle(article, listOfArticlesJSON);
             }
-            calculateTotalOrder(priceTable, totalOrderPriceText);
+            totalOrderPriceText.innerText = calculateTotalOrder(priceTable);
         })
 
         // Fonctionnalité pour augmenter la quantité au clic sur Bouton +
         addQuantityButton.addEventListener("click", function() {
-            // Mise à jour de la quantité avec le résultat de addQuantity
-            quantity.innerText = addQuantity(article, listOfArticlesJSON, priceTable);
-            // Mise à jour du prix total de l'article avec le résultat de updateArticlePrice
-            totalArticlePrice.innerText = updateArticlePrice(article) + " €";
-            calculateTotalOrder(priceTable, totalOrderPriceText);
+            // Mise à jour de la quantité avec le résultat de addQuantity, puis du prix total
+            article = addQuantity(article, listOfArticlesJSON, priceTable);
+            quantity.innerText = article.articleQuantity;
+            totalArticlePrice.innerText = article.articleQuantity * article.articlePrice/100 + " €";
+            totalOrderPriceText.innerText = calculateTotalOrder(priceTable);
         })
 
         // Fonctionnalité pour supprimer l'objet au clic sur Bouton "supprimer"
@@ -323,8 +318,8 @@ totalOrderPriceText.style.fontWeight = 'bold';
 totalOrderPriceText.classList.add("text-info");
 basket.append(totalOrderPriceText);
 
-// Calcul automatique du prix total
-calculateTotalOrder(priceTable, totalOrderPriceText);
+// Calcul automatique du prix total de la commande
+totalOrderPriceText.innerText = calculateTotalOrder(priceTable);
 
 // Création des données de contact
 class contact {
