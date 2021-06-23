@@ -1,6 +1,8 @@
 // Identification de la section principale
-let section = document.getElementById("message");
-section.classList.add("mx-3");
+let section = document.getElementById("confirmation");
+section.classList.add("my-3");
+section.classList.add("col-12");
+section.classList.add("text-center");
 
 // Identification des données de contact
 let contactData = localStorage.getItem("contact");
@@ -15,16 +17,15 @@ let email = contactDataJSON.email;
 let thanks = document.createElement("h1");
 thanks.innerText = "Merci pour votre commande " + firstName;
 thanks.classList.add("text-center");
-thanks.classList.add("my-4");
-message.append(thanks);
+thanks.classList.add("my-3");
+section.append(thanks);
 
-let recap = document.createElement("div");
 let recapMessage = document.createElement("p");
-recapMessage.innerText = "Les produits ci-dessous arriveront prochainement à cette adresse : " + "\n\n" + contactDataJSON.address + "\n" + contactDataJSON.city;
+recapMessage.innerText = "Les produits ci-dessous arriveront prochainement à cette adresse : " 
+    + "\n\n" + contactDataJSON.address + "\n" + contactDataJSON.city;
 recapMessage.classList.add("text-center");
-recapMessage.classList.add("my-4");
-message.append(recapMessage);
-section.append(recap);
+recapMessage.classList.add("my-3");
+section.append(recapMessage);
 
 // Identification du Panier d'article depuis le Local Storage
 let listOfArticles = localStorage.getItem("basket");
@@ -32,9 +33,8 @@ let listOfArticlesJSON = JSON.parse(listOfArticles);
 
 // Création d'une TABLE contenant la liste des produits + ajout à la section Basket
 let productList = document.createElement("table");
-productList.classList.add("col-12");
 productList.classList.add("table");
-recap.appendChild(productList);
+section.append(productList);
 
 // RECUPERATION DE TOUS LES ARTICLES stockés dans le Local Storage
 listOfArticlesJSON.forEach(article => {
@@ -51,7 +51,7 @@ listOfArticlesJSON.forEach(article => {
     document.createElement("imageProduct");
     imageProduct.src = article.articleImage;
     imageColumn.append(imageProduct);
-    imageColumn.classList.add("col-2");
+    imageColumn.classList.add("col");
     imageColumn.classList.add("border-top");
     imageColumn.classList.add("border-bottom");
     imageColumn.classList.add("border-dark");
@@ -61,7 +61,7 @@ listOfArticlesJSON.forEach(article => {
     let nameColumn = document.createElement("td");
     document.createElement("nameColumn");
     nameColumn.append(article.articleName);
-    nameColumn.classList.add("col-2");
+    nameColumn.classList.add("col");
     nameColumn.classList.add("not-for-mobile");
     nameColumn.classList.add("border-top");
     nameColumn.classList.add("border-bottom");
@@ -73,7 +73,7 @@ listOfArticlesJSON.forEach(article => {
     let colorColumn = document.createElement("td");
     document.createElement("colorColumn");
     colorColumn.append(article.articleColor);
-    colorColumn.classList.add("col-xs-1");
+    colorColumn.classList.add("col");
     colorColumn.classList.add("border-top");
     colorColumn.classList.add("border-bottom");
     colorColumn.classList.add("border-dark");
@@ -84,7 +84,7 @@ listOfArticlesJSON.forEach(article => {
     let priceColumn = document.createElement("td");
     document.createElement("priceColumn");
     priceColumn.append(article.articlePrice/100 + " €");
-    priceColumn.classList.add("col-2");
+    priceColumn.classList.add("col");
     priceColumn.classList.add("border-top");
     priceColumn.classList.add("border-bottom");
     priceColumn.classList.add("border-dark");
@@ -94,11 +94,12 @@ listOfArticlesJSON.forEach(article => {
     // Insertion de la colonne Quantity dans un TD
     let quantityColumn = document.createElement("td");
     document.createElement("quantityColumn");
-    quantityColumn.append(article.articleQuantity);
+    quantityColumn.append("x " + article.articleQuantity);
     quantityColumn.classList.add("border-top");
     quantityColumn.classList.add("border-bottom");
     quantityColumn.classList.add("border-dark");
     quantityColumn.classList.add("px-0");
+    quantityColumn.classList.add("col");
     ligneArticle.append(quantityColumn);
 
     // Insertion du prix total (quantité x prix unitaire) dans un TD
@@ -106,7 +107,7 @@ listOfArticlesJSON.forEach(article => {
     let totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
     document.createElement("totalPriceColumn");
     totalPriceColumn.classList.add("total-price");
-    totalPriceColumn.classList.add("col-sm-2");
+    totalPriceColumn.classList.add("col");
     totalPriceColumn.style.width = '100px';
     totalPriceColumn.classList.add("border-top");
     totalPriceColumn.classList.add("border-bottom");
@@ -125,10 +126,10 @@ let totalOrder = priceTable.reduce(reducer);
 // Création d'une ligne pour le total de la commande
 let totalOrderPriceText = document.createElement("p");
 document.createElement("totalOrderPrice");
-totalOrderPriceText.classList.add("col-md-12");
+totalOrderPriceText.classList.add("col-12");
 totalOrderPriceText.style.fontWeight = 'bold';
 totalOrderPriceText.classList.add("text-center");
-recap.append(totalOrderPriceText);
+section.append(totalOrderPriceText);
 totalOrderPriceText.innerText = "Montant total de votre commande : " + totalOrder + " €";
 
 // Variable pour récupérer les Coordonnées de contact dans le Local Storage, pour la requête POST
@@ -150,7 +151,7 @@ let orderConfirm = document.createElement("p");
 orderConfirm.classList.add("text-center");
 orderConfirm.style.fontWeight = 'bold';
 orderConfirm.classList.add("text-info");
-recap.append(orderConfirm);
+section.append(orderConfirm);
 
 // Création de la requête POST pour envoi des données
 fetch("http://localhost:3000/api/teddies/order", {

@@ -71,18 +71,18 @@ margin-top: 10px;
     margin: auto;
 }
 
-#basket td, #message td, #basket th {
+#basket td, #message td, #basket th, #confirmation td {
     vertical-align: middle;
     text-align: center;
     padding-left: 0px;
     padding-right: 0px;
 }
 
-#basket .table {
+#basket .table, #confirmation .table {
     table-layout: fixed;
 }
 
-#basket tr {
+#basket tr, #confirmation tr {
     border: 1px solid black;
 }
 

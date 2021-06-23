@@ -27,7 +27,7 @@ if (basketContent === null) {
     localStorage.setItem("basket", JSON.stringify(basketContent));
 }
 
-// Fonction permettant ajouter un produit au panier
+// Fonction permettant d'ajouter un produit au panier
 function addToBasket(product, basketContent) { 
     basketContent.push(product);
     localStorage.setItem("basket", JSON.stringify(basketContent));
