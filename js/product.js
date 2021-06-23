@@ -27,8 +27,8 @@ if (basketContent === null) {
     localStorage.setItem("basket", JSON.stringify(basketContent));
 }
 
-// Fonction p ajouter un produit au panier
-function addToBasket(product) { 
+// Fonction permettant ajouter un produit au panier
+function addToBasket(product, basketContent) { 
     basketContent.push(product);
     localStorage.setItem("basket", JSON.stringify(basketContent));
 }
@@ -123,7 +123,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`)
             }
             // Sinon => on l'ajoute au panier
             else {
-                addToBasket(newProduct);
+                addToBasket(newProduct, basketContent);
                 alert("Vous venez d'ajouter " + data.name + " (coloris " + colorChoice.value + ") au panier");
             }
         })

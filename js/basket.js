@@ -15,13 +15,13 @@ function customizeBorder(element) {
 // Fonction permettant de calculer automatiquement la somme des prix du tableau
 function calculateTotalOrder(listToCalculate, destination) {
     let reducer = (accumulator, currentValue) => accumulator + currentValue;
-    total = listToCalculate.reduce(reducer);
+    let total = listToCalculate.reduce(reducer);
     destination.innerText = "Montant total de votre commande : " + total + " €";
 }
 
 // Fonction permettant de supprimer un article (page et Local Storage)
-function deleteArticle(article, container, index) {
-    index = container.indexOf(article);
+function deleteArticle(article, container) {
+    let index = container.indexOf(article);
     container.splice(index, 1);
     localStorage.setItem("basket", JSON.stringify(container));
     alert("Vous venez de supprimer l'ours " + article.articleName + " (coloris " + article.articleColor + ") du panier");
@@ -29,19 +29,27 @@ function deleteArticle(article, container, index) {
 }
 
 // Fonction permettant de réduire la quantité d'un article
-function reduceQuantity(product, array1, array2) {
+function reduceQuantity(product, quantityArray, priceArray) {
     product.articleQuantity -= 1;
-    array1.push(-product.articlePrice/100);
-    localStorage.setItem("prices", JSON.stringify(array1));
-    localStorage.setItem("basket", JSON.stringify(array2));
+    priceArray.push(-product.articlePrice/100);
+    localStorage.setItem("prices", JSON.stringify(priceArray));
+    localStorage.setItem("basket", JSON.stringify(quantityArray));
+    return product.articleQuantity;
 }
 
 // Fonction permettant d'incrémenter la quantité d'un article
-function addQuantity(product, array1, array2) {
+function addQuantity(product, quantityArray, priceArray) {
     product.articleQuantity += 1;
-    array1.push(product.articlePrice/100);
-    localStorage.setItem("prices", JSON.stringify(array1));
-    localStorage.setItem("basket", JSON.stringify(array2));
+    priceArray.push(product.articlePrice/100);
+    localStorage.setItem("prices", JSON.stringify(priceArray));
+    localStorage.setItem("basket", JSON.stringify(quantityArray));
+    return product.articleQuantity;
+}
+
+// Fonction permettant de mettre à jour le prix total d'un article
+function updateArticlePrice (product) {
+    let price = product.articleQuantity * product.articlePrice/100;
+    return price;
 }
 
 // Pointage vers la section "basket"
@@ -280,23 +288,23 @@ if (listOfArticles === '{}' || listOfArticles === '[]' || listOfArticles === nu
 
         // Fonctionnalité pour réduire la quantité au clic sur Bouton -
         lessQuantityButton.addEventListener("click", function() {
-            reduceQuantity(article, priceTable, listOfArticlesJSON);
+            // Mise à jour de la quantité avec le résultat de reduceQuantity
+            quantity.innerText = reduceQuantity(article, listOfArticlesJSON, priceTable);
+            // Mise à jour du prix total de l'article avec le résultat de updateArticlePrice
+            totalArticlePrice.innerText = updateArticlePrice(article) + " €";
             // Si la quantité passe à 0, l'article est supprimé
             if ((article.articleQuantity === 0)) {
                 deleteArticle(article, listOfArticlesJSON);
             }
-            totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
-            totalArticlePrice.innerText = totalPriceColumnAmount + " €";
-            quantity.innerText = article.articleQuantity;
             calculateTotalOrder(priceTable, totalOrderPriceText);
         })
 
         // Fonctionnalité pour augmenter la quantité au clic sur Bouton +
         addQuantityButton.addEventListener("click", function() {
-            addQuantity(article, priceTable, listOfArticlesJSON);
-            totalPriceColumnAmount = article.articleQuantity * article.articlePrice/100;
-            totalArticlePrice.innerText = totalPriceColumnAmount + " €";
-            quantity.innerText = article.articleQuantity;
+            // Mise à jour de la quantité avec le résultat de addQuantity
+            quantity.innerText = addQuantity(article, listOfArticlesJSON, priceTable);
+            // Mise à jour du prix total de l'article avec le résultat de updateArticlePrice
+            totalArticlePrice.innerText = updateArticlePrice(article) + " €";
             calculateTotalOrder(priceTable, totalOrderPriceText);
         })
 
@@ -387,7 +395,7 @@ button.classList.add("btn-info");
 button.classList.add("mx-auto");
 button.classList.add("my-1");
 
-// Ecoute de tous les champs de formulaire à chaque modifications PUIS envoi au LocalStorage
+// Ecoute de tous les champs de formulaire à chaque modifications
 let firstName = document.getElementById("firstname");
 let lastName = document.getElementById("lastname");
 let address = document.getElementById("address");
@@ -409,6 +417,8 @@ city.addEventListener("change",function() {
 email.addEventListener("change",function() {
     newContact.email = email.value;
 })
+
+// Envoi des données de formulaire vers le Local Storage
 let orderButton = document.getElementById("btn-order");
 orderButton.addEventListener("click", function() {
     localStorage.setItem("contact", JSON.stringify(newContact));
