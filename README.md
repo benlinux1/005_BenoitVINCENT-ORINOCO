@@ -1,8 +1,4 @@
-# Orinoco #
-
-This is the back end server for Project 5 of the Junior Web Developer path.
-
-# RESERVIA
+# ORINOCO
 Ce dépôt contient le site web pour le P5 du parcours **DEVELOPPEUR WEB**, intitulé **Orinoco**.
 
 
@@ -49,6 +45,11 @@ L'application devait uniquement être disponible en **Français**.
 ### Version smartphone
 
 
+
+
+# Orinoco #
+
+This is the back end server for Project 5 of the Junior Web Developer path.
 
 
 ### Prerequisites ###
