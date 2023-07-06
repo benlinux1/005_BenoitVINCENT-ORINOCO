@@ -23,6 +23,7 @@ L'application devait uniquement être disponible en **Français**.
 - Spécifications fonctionnelles de l'API (URL des routes, types de données, paramètres)
 - Architecture générale demandée par le client
 
+
 ## Cahier des charges et contraintes
 
 ### Spécificités et fonctionnalités
