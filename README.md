@@ -58,16 +58,44 @@ par le serveur.
 
 ### Version tablette 
 
+#### Page d'accueil
+
 <img width="331" alt="01 - Tab Accueil" src="https://github.com/benlinux1/005-ORINOCO/assets/78255467/175bf3b1-257e-4199-8115-cb06c611c7a0">
+
+
+#### Fiche produit
+
 <img width="326" alt="01 - Tab Fiche" src="https://github.com/benlinux1/005-ORINOCO/assets/78255467/9075d993-93a1-41f6-9625-9c0106b966f9">
+
+
+#### Panier
+
 <img width="332" alt="02 - Tab panier" src="https://github.com/benlinux1/005-ORINOCO/assets/78255467/809be0e7-57c2-4bf0-9431-5803ec7b2132">
+
+
+#### Confirmation de commande
+
 <img width="334" alt="03 - Tab confirmation" src="https://github.com/benlinux1/005-ORINOCO/assets/78255467/d2d2f6af-4b90-45c0-9c39-6b6dcfde1490">
 
 
 ### Version smartphone
 
+#### Page d'accueil
+
 <img width="239" alt="04- Smart accueil" src="https://github.com/benlinux1/005-ORINOCO/assets/78255467/a265204e-dc32-4f11-8f1f-629968f2dbad">
+
+
+#### Fiche produit
+
 <img width="239" alt="05 - SMART Fiche" src="https://github.com/benlinux1/005-ORINOCO/assets/78255467/d54107cd-7a46-4b85-af31-799f984b8022">
+
+
+#### Panier
+
 <img width="241" alt="06 - SMART Panier" src="https://github.com/benlinux1/005-ORINOCO/assets/78255467/30402fe2-d51a-480f-a514-abf4f887763e">
+
+
+#### Confirmation de commande
+
 <img width="239" alt="07 - SMART Confirmation" src="https://github.com/benlinux1/005-ORINOCO/assets/78255467/513981f5-738d-4d14-8550-4d58b0db23b1">
 
