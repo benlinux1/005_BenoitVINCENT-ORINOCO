@@ -9,7 +9,7 @@ Ce dépôt contient le site web pour le P5 du parcours **DEVELOPPEUR WEB**, inti
 
 ## Objectif
 
-L'objectif de ce projet consistait en la création de la partie front-end d'un site e-commerce, en Vanilla Javascript Vanilla (sans framework ni bibliothèque), consommant une API préalablement fournie.
+L'objectif de ce projet consistait en la **création de la partie front-end d'un site e-commerce, en Vanilla Javascript** (sans framework ni bibliothèque), consommant une API préalablement fournie.
 Toute la création et la manipulation des éléments du DOM interviennent donc en Javascript pur.
 
 
